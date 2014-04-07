@@ -7,6 +7,22 @@ package rmq;
  * You will implement this class for problem 3.ii of Problem Set One.
  */
 public class SparseTableRMQ implements RMQ {
+    
+    int[][] sparseTable; 
+
+    /*
+        Fills the sparse table. 
+    */ 
+    private filleSparseTable(float[] elems) {
+        int length_eval = 1; 
+        int elem_length = sparseTable.length; 
+        int log_length = sparseTable[0].length; 
+
+        for(int i=0; i < sparseTable.length; i ++) {
+            elems[i][length_eval] = i; 
+        }
+    }
+
     /**
      * Creates a new SparseTableRMQ structure to answer queries about the
      * array given by elems.
@@ -14,7 +30,11 @@ public class SparseTableRMQ implements RMQ {
      * @elems The array over which RMQ should be computed.
      */
     public SparseTableRMQ(float[] elems) {
-        // TODO: Implement this!
+       int elems_length = elems.length; 
+       int log_length; 
+       sparseTable = new int[elem_length][log_length]; 
+
+
     }
 
     private int getHighestKUpToNumber(int number) {
