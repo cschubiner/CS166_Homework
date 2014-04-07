@@ -31,9 +31,9 @@ public class SparseTableRMQ implements RMQ {
      */
     public SparseTableRMQ(float[] elems) {
        int elems_length = elems.length; 
-       int log_length; 
+       int log_length = getHighestKUptoNumber(elems.length);  
        sparseTable = new int[elem_length][log_length]; 
-
+       
 
     }
 
