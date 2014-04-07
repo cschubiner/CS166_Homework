@@ -42,7 +42,7 @@ public class SparseTableRMQ implements RMQ {
         int ret = 1;
         while (true) {
             if (Math.pow(2, ret) > number)
-                return (int)Math.pow(2,ret - 1);
+                return ret - 1;
             ret++;
         }
     }
