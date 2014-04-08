@@ -30,7 +30,7 @@ public class SparseTableRMQ implements RMQ {
                     break;
                 float comp1 = elems[sparseTable[i][pow_of_two - 1]];
                 float comp2 = elems[sparseTable[i + two_power][pow_of_two - 1]];
-                sparseTable[i][pow_of_two] = comp1 > comp2 ? sparseTable[i][pow_of_two - 1] : sparseTable[i + two_power][pow_of_two - 1];
+                sparseTable[i][pow_of_two] = comp1 < comp2 ? sparseTable[i][pow_of_two - 1] : sparseTable[i + two_power][pow_of_two - 1];
             }
             pow_of_two++;
         }
@@ -55,8 +55,13 @@ public class SparseTableRMQ implements RMQ {
         }
     }
 
-    private int getHighestKUpToNumber(int number) {
+    private int getHighestKUpToNumber(int number)
+    {
         return kArray[number];
+    }
+
+    private int getNumberToThePowerOfTwo(int number) {
+        kPowArray[number];
     }
 
     /**
@@ -67,6 +72,8 @@ public class SparseTableRMQ implements RMQ {
      */
     public SparseTableRMQ(float[] elems) {
         int elems_length = elems.length;
+        if (elems_length > 1)
+            System.out.println("breaking");
         if (elems_length == 0) return;
         precomputeKArray(elems_length);
         int log_length = getHighestKUpToNumber(elems.length);
@@ -91,7 +98,9 @@ public class SparseTableRMQ implements RMQ {
      */
     @Override
     public int rmq(int i, int j) {
-        // TODO: Implement this!
+        int sparseTableColumn = getHighestKUpToNumber(j-i-1);
+        int sparseTableRange = getNumberToThePowerOfTwo(sparseTableColumn);
+
         return 0;
     }
 }
