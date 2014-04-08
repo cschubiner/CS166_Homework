@@ -11,6 +11,7 @@ public class SparseTableRMQ implements RMQ {
     int[][] sparseTable;
     int[] kArray;
     int[] kPowArray;
+    float[] original_array;
 
     /*
         Fills the sparse table. 
@@ -41,29 +42,30 @@ public class SparseTableRMQ implements RMQ {
      For example, kArray could be:
      0 0 1 1 2 2 2 2 3 3 3 3 3 3 3 3 4
      kPowArray = 2^kArray[i]
-     0 0 2 2 4 4 4 4 8 8 8 8 8 8 8 8 16
+     0 2 2 2 4 4 4 4 8 8 8 8 8 8 8 8 16
      Note: The zeroth element in kArray and kPowArray is irrelevant.
      */
     private void precomputeKArray(int arraySize) {
         kArray = new int[arraySize + 1];
-        kPowArray = new int[arraySize + 1];
-        kArray[1] = 0;
         int count = 0;
-        int powCount = 1;
         int nextPowerOfTwo = 2;
         for (int i = 2; i <= arraySize; i++) {
             if (i == nextPowerOfTwo) {
                 nextPowerOfTwo *= 2;
                 count++;
-                powCount *= 2;
             }
             kArray[i] = count;
+        }
+
+        int powCount = 1;
+        kPowArray = new int[arraySize + 1];
+        for (int i = 1; i <= arraySize; i++){
+            powCount *= 2;
             kPowArray[i] = powCount;
         }
     }
 
-    private int getHighestKUpToNumber(int number)
-    {
+    private int getHighestKUpToNumber(int number) {
         return kArray[number];
     }
 
@@ -78,15 +80,14 @@ public class SparseTableRMQ implements RMQ {
      * @elems The array over which RMQ should be computed.
      */
     public SparseTableRMQ(float[] elems) {
+        original_array = elems;
         int elems_length = elems.length;
-        if (elems_length > 1)
-            System.out.println("breaking");
         if (elems_length == 0) return;
         precomputeKArray(elems_length);
         int log_length = getHighestKUpToNumber(elems.length);
         sparseTable = new int[elems_length][log_length + 1];
         fillSparseTable(elems);
-        if (elems_length > 1)
+        if (elems_length == 5)
             print2dArray(sparseTable);
     }
 
@@ -105,8 +106,21 @@ public class SparseTableRMQ implements RMQ {
      */
     @Override
     public int rmq(int i, int j) {
-        int sparseTableColumn = getHighestKUpToNumber(j-i+1);
+        if (i == j) return i;
+        int sparseTableColumn = getHighestKUpToNumber(j - i + 1);
         int sparseTableRange = getNumberToThePowerOfTwo(sparseTableColumn);
-        return 0;
+
+        int second_to_comp = j - sparseTableRange + 1;
+
+        if (i == second_to_comp) {
+            return sparseTable[i][sparseTableColumn];
+        }
+
+        int index1 = sparseTable[i][sparseTableColumn];
+        int index2 = sparseTable[second_to_comp][sparseTableColumn];
+
+        if (original_array[index1] < original_array[index2])
+            return index1;
+        return index2;
     }
 }
