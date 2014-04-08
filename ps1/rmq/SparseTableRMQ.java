@@ -10,6 +10,7 @@ public class SparseTableRMQ implements RMQ {
 
     int[][] sparseTable;
     int[] kArray;
+    float[] original_array; 
 
     /*
         Fills the sparse table. 
@@ -71,7 +72,8 @@ public class SparseTableRMQ implements RMQ {
      * @elems The array over which RMQ should be computed.
      */
     public SparseTableRMQ(float[] elems) {
-        int elems_length = elems.length;
+        original_array = elems; 
+    	int elems_length = elems.length;
         if (elems_length > 1)
             System.out.println("breaking");
         if (elems_length == 0) return;
@@ -100,7 +102,17 @@ public class SparseTableRMQ implements RMQ {
     public int rmq(int i, int j) {
         int sparseTableColumn = getHighestKUpToNumber(j-i-1);
         int sparseTableRange = getNumberToThePowerOfTwo(sparseTableColumn);
-
-        return 0;
+        int second_to_comp = j - sparseTableRange + 1; 
+        
+        if(i == second_to_comp) {
+        	return sparseTable[i][sparseTableColumn]; 
+        }
+        
+        int index1 = sparseTable[i][sparseTableColumn]; 
+        int index2 = sparseTable[second_to_comp][sparseTableColumn]; 
+        
+        if(original_array[index1] < original_array[index]) {
+        	return index1; 
+        return index2;   
     }
 }
