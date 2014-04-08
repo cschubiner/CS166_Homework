@@ -51,10 +51,7 @@ public class HybridRMQ implements RMQ {
         createTopLayer(elems);
     }
 
-    /**
-     * Evaluates RMQ(i, j) over the array stored by the constructor, returning
-     * the index of the minimum value in that range.
-     */
+
 
     private int getBlockStart(int i) {
         int k = i/b; 
@@ -86,6 +83,10 @@ public class HybridRMQ implements RMQ {
         return min_index;
     }
 
+    /**
+     * Evaluates RMQ(i, j) over the array stored by the constructor, returning
+     * the index of the minimum value in that range.
+     */
     @Override
     public int rmq(int i, int j) {
         if (i == j) return i;
