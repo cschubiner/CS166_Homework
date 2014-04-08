@@ -1,5 +1,8 @@
 *.class
 
+ps1/.idea/workspace.xml
+.idea/workspace.xml
+
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
@@ -7,5 +10,4 @@
 *.jar
 *.war
 *.ear
-.idea/workspace.xml
 ps1/.idea/workspace.xml
