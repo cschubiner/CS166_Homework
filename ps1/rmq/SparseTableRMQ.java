@@ -7,44 +7,46 @@ package rmq;
  * You will implement this class for problem 3.ii of Problem Set One.
  */
 public class SparseTableRMQ implements RMQ {
-    
+
     int[][] sparseTable;
     int[] kArray;
 
     /*
         Fills the sparse table. 
-    */ 
+    */
     private void fillSparseTable(float[] elems) {
         int pow_of_two = 0;
         int elem_length = sparseTable.length;
-        int log_length = sparseTable[0].length; 
+        int log_length = sparseTable[0].length;
 
-        for(int i=0; i < sparseTable.length; i ++) {
+        for (int i = 0; i < sparseTable.length; i++) {
             sparseTable[i][pow_of_two] = i;
         }
-        pow_of_two++; 
-        while(pow_of_two < log_length) {
-        	int two_power = (int) Math.pow(2, pow_of_two - 1);
-        	for(int i = 0; i < elem_length; i++) {
-        		if(i + Math.pow(2, pow_of_two) - 1 >= elem_length) 
-        			break; 
-        		float comp1 = elems[sparseTable[i][pow_of_two-1]]; 
-        		float comp2 = elems[sparseTable[i+two_power][pow_of_two-1]]; 
-        		sparseTable[i][pow_of_two] = comp1 > comp2 ? sparseTable[i][pow_of_two-1] : sparseTable[i+two_power][pow_of_two-1]; 
-        	}
-        	pow_of_two ++; 
+        pow_of_two++;
+        while (pow_of_two < log_length) {
+            int two_power = (int) Math.pow(2, pow_of_two - 1);
+            for (int i = 0; i < elem_length; i++) {
+                if (i + Math.pow(2, pow_of_two) - 1 >= elem_length)
+                    break;
+                float comp1 = elems[sparseTable[i][pow_of_two - 1]];
+                float comp2 = elems[sparseTable[i + two_power][pow_of_two - 1]];
+                sparseTable[i][pow_of_two] = comp1 > comp2 ? sparseTable[i][pow_of_two - 1] : sparseTable[i + two_power][pow_of_two - 1];
+            }
+            pow_of_two++;
         }
     }
 
-    /* kArray[i] =
-    // X 0 1 1 2 2 2 2 3 3 3 3 3 3 3 3 4
+    /* kArray[i] = highest 2^i that is less than or equal to i.
+     For example, kArray could be:
+     0 0 1 1 2 2 2 2 3 3 3 3 3 3 3 3 4
+     Note: The zeroth element in kArray is irrelevant.
      */
     private void precomputeKArray(int arraySize) {
-        kArray = new int[arraySize+1];
+        kArray = new int[arraySize + 1];
         kArray[1] = 0;
-        int count = 1;
+        int count = 0;
         int nextPowerOfTwo = 2;
-        for (int i = 2; i < arraySize; i++) {
+        for (int i = 2; i <= arraySize; i++) {
             if (i == nextPowerOfTwo) {
                 nextPowerOfTwo *= 2;
                 count++;
@@ -64,14 +66,14 @@ public class SparseTableRMQ implements RMQ {
      * @elems The array over which RMQ should be computed.
      */
     public SparseTableRMQ(float[] elems) {
-       int elems_length = elems.length;
+        int elems_length = elems.length;
         if (elems_length == 0) return;
         precomputeKArray(elems_length);
-       int log_length = getHighestKUpToNumber(elems.length);
-       sparseTable = new int[elems_length][log_length+1]; 
-       fillSparseTable(elems);
+        int log_length = getHighestKUpToNumber(elems.length);
+        sparseTable = new int[elems_length][log_length + 1];
+        fillSparseTable(elems);
         if (elems_length > 1)
-        print2dArray(sparseTable);
+            print2dArray(sparseTable);
     }
 
     private void print2dArray(int[][] arr) {
