@@ -12,7 +12,7 @@ import java.util.Stack;
 public class FischerHeunRMQ implements RMQ {
     //block size
     int b;
-    CartesianTree[] cartesianTreeNumbers;
+    PrecomputedRMQ[] cartesianTreeNumbers;
 
     private void createTopLayer(float[] elems) {
         float minVal = Float.MAX_VALUE;
@@ -43,32 +43,35 @@ public class FischerHeunRMQ implements RMQ {
     private static int bitSetToInt(BitSet bitSet)
     {
         int bitInteger = 0;
-        for(int i = 0 ; i < 32; i++)
+        for (int i = 0; i < 32; i++)
             if(bitSet.get(i))
                 bitInteger |= (1 << i);
         return bitInteger;
     }
 
     /* Gets the cartesian tree number for a block */
-    int getCartesianTreeNumber(float[] block) {
+    int getCartesianTreeNumber(int startIndex, int endIndex) {
         BitSet bs = new BitSet();
         int bsIndex = 0;
         Stack<Float> stack = new Stack<Float>();
-        for (int i = 0; i < block.length; i++) {
+        for (int i = startIndex; i < Math.min(endIndex, original_array.length); i++) {
             while (!stack.isEmpty()) {
-                if (stack.peek() < block[i])
+                if (stack.peek() <= original_array[i])
                     break;
                 stack.pop();
+//                System.out.print("0");
                 bs.set(bsIndex, false);
                 bsIndex++;
             }
-            stack.push(block[i]);
+            stack.push(original_array[i]);
+//            System.out.print("1");
             bs.set(bsIndex, true);
             bsIndex++;
         }
         // pop remainder of elements off stack
         while (!stack.isEmpty()) {
             stack.pop();
+//            System.out.print("0");
             bs.set(bsIndex, false);
             bsIndex++;
         }
@@ -83,29 +86,31 @@ public class FischerHeunRMQ implements RMQ {
      */
     public FischerHeunRMQ(float[] elems) {
 //        elems = new float[]{32,45,16,18,9,33};
+//        elems = new float[]{27,18,28,18,28,45,90,45,23,53,60,28,74,71,35};
         int elems_length = elems.length;
         if (elems_length <= 1) return;
         original_array = elems;
-        b = (int) (Math.log(elems_length) / Math.log(2));
-        cartesianTreeNumbers = new CartesianTree[(int)Math.pow(4, b)];
+        b = (int) (Math.max(Math.log(elems_length) / (Math.log(2)*4),1));
+        getCartesianTreeNumber(0,elems.length);
         createTopLayer(elems);
+        computeRMQForBlocks();
     }
 
-    private void computeRMQForBlock(float[] block) {
-        int cTreeNum = getCartesianTreeNumber(block);
+    private void computeRMQForBlock(int i, int j) {
+        int cTreeNum = getCartesianTreeNumber(i, j);
         if (cartesianTreeNumbers[cTreeNum] != null)
             return;
-
-        cartesianTreeNumbers[cTreeNum] = new CartesianTree(block);
-
+        cartesianTreeNumbers[cTreeNum] = new PrecomputedRMQ(Arrays.copyOfRange(original_array, i, j));
     }
 
     private void computeRMQForBlocks() {
+        cartesianTreeNumbers = new PrecomputedRMQ[(int)Math.pow(4, b)];
         for (int i = 0; i < original_array.length; i+= b) {
-            computeRMQForBlock(Arrays.copyOfRange(original_array, i, i+b));
+            computeRMQForBlock(i, i+b);
         }
     }
 
+    private static int testNum = 0;
     /**
      * Evaluates RMQ(i, j) over the array stored by the constructor, returning
      * the index of the minimum value in that range.
@@ -113,31 +118,28 @@ public class FischerHeunRMQ implements RMQ {
     @Override
     public int rmq(int i, int j) {
         if (i == j) return i;
-        int block_start = getBlockStart(i);
-        int block_end = getBlockEnd(j);
-        if (block_start <= block_end) {
-            int bcm = topLayerRMQ.rmq(block_start, block_end);
-            int block_max = linearGetMin(bcm * b, (bcm + 1) * b - 1);
-            int linear_end_first = block_start * b - 1;
-            int linear_start_second = (block_end + 1) * b;
+        testNum++;
+//        if (testNum >= 6340)
+//        System.out.println(testNum);
 
-            int top_linear_index;
-            if (linear_end_first < i && linear_start_second > j) {
-                return block_max;
-            } else if (linear_end_first < i && linear_start_second <= j) {
-                top_linear_index = linearGetMin(linear_start_second, j);
-            } else if (linear_end_first >= i && linear_start_second > j) {
-                top_linear_index = linearGetMin(i, linear_end_first);
-            } else {
-                int first = linearGetMin(i, linear_end_first);
-                int second = linearGetMin(linear_start_second, j);
-                top_linear_index = original_array[first] < original_array[second] ? first : second;
-            }
-
-            return original_array[block_max] < original_array[top_linear_index] ? block_max : top_linear_index;
-        } else {
+        int startingBlock = i/b;
+        int endingBlock = j/b;
+        if (startingBlock == endingBlock)
             return linearGetMin(i, j);
+
+        int lowerMin = linearGetMin(i,i - i%b + b - 1);
+        int ret = lowerMin;
+        int upperMin = linearGetMin(j-j%b,j);
+        if (original_array[upperMin] < original_array[ret])
+            ret = upperMin;
+
+        if (startingBlock + 1 < endingBlock) {
+            int bcm = topLayerRMQ.rmq(getBlockStart(i), getBlockEnd(j));
+            int indexOfBCM = linearGetMin(bcm * b, Math.min((bcm+1) * b - 1, original_array.length - 1));
+            if (original_array[indexOfBCM] < original_array[ret])
+                ret = indexOfBCM;
         }
+        return ret;
     }
 
     private int getBlockStart(int i) {
@@ -157,40 +159,14 @@ public class FischerHeunRMQ implements RMQ {
     }
 
     private int linearGetMin(int i, int j) {
-        int min_index = i;
-        float min_value = original_array[i];
+        if (i == j) return i;
+        int startIndexInBlock = i % b;
+        int endIndexInBlock = j % b;
+        if (j < i) j = i + b - 1;
 
-        for (int k = i + 1; k <= j; k++) {
-            if (original_array[k] < min_value) {
-                min_value = original_array[k];
-                min_index = k;
-            }
-        }
-
-        return min_index;
+        int blockStartIndex = i-startIndexInBlock;
+        int cTreeNum = getCartesianTreeNumber(blockStartIndex, Math.min(blockStartIndex + b, original_array.length));
+//        System.out.println(j-i);
+        return blockStartIndex + cartesianTreeNumbers[cTreeNum].rmq(startIndexInBlock, endIndexInBlock);
     }
-
-    private class CartesianTree {
-        private Node root;
-
-        public CartesianTree(float[] block) {
-            Stack<Float> stack = new Stack<Float>();
-            for (int i = 0; i < block.length; i++) {
-                while (!stack.isEmpty()) {
-                    if (stack.peek() < block[i])
-                        break;
-                    stack.pop();
-                }
-                stack.push(block[i]);
-            }
-            // pop remainder of elements off stack
-            while (!stack.isEmpty()) {
-                stack.pop();
-            }
-        }
-
-        private class Node {
-            public float value;
-        }
-    }
-}
+  }
