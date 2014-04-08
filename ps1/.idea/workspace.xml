@@ -22,16 +22,16 @@
       <content type="file-editors">
         <state>
           <leaf>
-            <file leaf-file-name="SparseTableRMQ.java" pinned="false" current="true" current-in-tab="true">
+            <file leaf-file-name="SparseTableRMQ.java" pinned="false" current="false" current-in-tab="true">
               <entry file="file://$PROJECT_DIR$/rmq/SparseTableRMQ.java">
                 <provider selected="true" editor-type-id="text-editor">
-                  <state vertical-scroll-proportion="0.6083551" vertical-offset="494" max-vertical-offset="1680">
-                    <caret line="64" column="5" selection-start-line="64" selection-start-column="5" selection-end-line="64" selection-end-column="5" />
+                  <state vertical-scroll-proportion="0.8616188" vertical-offset="975" max-vertical-offset="1770">
+                    <caret line="109" column="0" selection-start-line="109" selection-start-column="0" selection-end-line="109" selection-end-column="0" />
                     <folding>
-                      <element signature="e#1881#1882#0" expanded="true" />
-                      <element signature="e#1918#1919#0" expanded="true" />
-                      <element signature="e#1974#1975#0" expanded="true" />
-                      <element signature="e#2007#2008#0" expanded="true" />
+                      <element signature="e#2123#2124#0" expanded="true" />
+                      <element signature="e#2160#2161#0" expanded="true" />
+                      <element signature="e#2216#2217#0" expanded="true" />
+                      <element signature="e#2256#2257#0" expanded="true" />
                     </folding>
                   </state>
                 </provider>
@@ -118,14 +118,16 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SparseTableRMQ.java" pinned="false" current="false" current-in-tab="true">
+      <file leaf-file-name="SparseTableRMQ.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/rmq/SparseTableRMQ.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.8886256" vertical-offset="1110" max-vertical-offset="1650">
-              <caret line="101" column="55" selection-start-line="101" selection-start-column="55" selection-end-line="101" selection-end-column="55" />
+            <state vertical-scroll-proportion="0.6800948" vertical-offset="1348" max-vertical-offset="1770">
+              <caret line="109" column="4" selection-start-line="109" selection-start-column="4" selection-end-line="109" selection-end-column="4" />
               <folding>
-                <marker date="1396918479000" expanded="true" signature="2945:3086" placeholder="/**...*/" />
-                <marker date="1396918479000" expanded="true" signature="3232:3300" placeholder="{...}" />
+                <element signature="e#2123#2124#0" expanded="true" />
+                <element signature="e#2160#2161#0" expanded="true" />
+                <element signature="e#2216#2217#0" expanded="true" />
+                <element signature="e#2256#2257#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -491,18 +493,12 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/rmq/SparseTableRMQ.java</url>
-          <line>82</line>
+          <line>110</line>
           <properties />
-          <option name="timeStamp" value="14" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/rmq/SparseTableRMQ.java</url>
-          <line>32</line>
-          <properties />
-          <option name="timeStamp" value="17" />
+          <option name="timeStamp" value="21" />
         </line-breakpoint>
       </breakpoints>
-      <option name="time" value="18" />
+      <option name="time" value="22" />
     </breakpoint-manager>
   </component>
   <component name="antWorkspaceConfiguration">
@@ -539,10 +535,10 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="405" max-vertical-offset="1635">
           <caret line="27" column="9" selection-start-line="27" selection-start-column="9" selection-end-line="27" selection-end-column="9" />
           <folding>
-            <element signature="e#1881#1882#0" expanded="true" />
-            <element signature="e#1918#1919#0" expanded="true" />
-            <element signature="e#1974#1975#0" expanded="true" />
-            <element signature="e#2007#2008#0" expanded="true" />
+            <element signature="e#2123#2124#0" expanded="true" />
+            <element signature="e#2160#2161#0" expanded="true" />
+            <element signature="e#2216#2217#0" expanded="true" />
+            <element signature="e#2256#2257#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -600,10 +596,10 @@
         <state vertical-scroll-proportion="0.0" vertical-offset="495" max-vertical-offset="990">
           <caret line="53" column="13" selection-start-line="53" selection-start-column="13" selection-end-line="53" selection-end-column="13" />
           <folding>
-            <element signature="e#1881#1882#0" expanded="true" />
-            <element signature="e#1918#1919#0" expanded="true" />
-            <element signature="e#1974#1975#0" expanded="true" />
-            <element signature="e#2007#2008#0" expanded="true" />
+            <element signature="e#2123#2124#0" expanded="true" />
+            <element signature="e#2160#2161#0" expanded="true" />
+            <element signature="e#2216#2217#0" expanded="true" />
+            <element signature="e#2256#2257#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -778,13 +774,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/rmq/SparseTableRMQ.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6083551" vertical-offset="494" max-vertical-offset="1680">
-          <caret line="64" column="5" selection-start-line="64" selection-start-column="5" selection-end-line="64" selection-end-column="5" />
+        <state vertical-scroll-proportion="0.6800948" vertical-offset="1348" max-vertical-offset="1770">
+          <caret line="109" column="4" selection-start-line="109" selection-start-column="4" selection-end-line="109" selection-end-column="4" />
           <folding>
-            <element signature="e#1881#1882#0" expanded="true" />
-            <element signature="e#1918#1919#0" expanded="true" />
-            <element signature="e#1974#1975#0" expanded="true" />
-            <element signature="e#2007#2008#0" expanded="true" />
+            <element signature="e#2123#2124#0" expanded="true" />
+            <element signature="e#2160#2161#0" expanded="true" />
+            <element signature="e#2216#2217#0" expanded="true" />
+            <element signature="e#2256#2257#0" expanded="true" />
           </folding>
         </state>
       </provider>

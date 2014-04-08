@@ -10,6 +10,7 @@ public class SparseTableRMQ implements RMQ {
 
     int[][] sparseTable;
     int[] kArray;
+    int[] kPowArray;
 
     /*
         Fills the sparse table. 
@@ -39,19 +40,25 @@ public class SparseTableRMQ implements RMQ {
     /* kArray[i] = highest 2^i that is less than or equal to i.
      For example, kArray could be:
      0 0 1 1 2 2 2 2 3 3 3 3 3 3 3 3 4
-     Note: The zeroth element in kArray is irrelevant.
+     kPowArray = 2^kArray[i]
+     0 0 2 2 4 4 4 4 8 8 8 8 8 8 8 8 16
+     Note: The zeroth element in kArray and kPowArray is irrelevant.
      */
     private void precomputeKArray(int arraySize) {
         kArray = new int[arraySize + 1];
+        kPowArray = new int[arraySize + 1];
         kArray[1] = 0;
         int count = 0;
+        int powCount = 1;
         int nextPowerOfTwo = 2;
         for (int i = 2; i <= arraySize; i++) {
             if (i == nextPowerOfTwo) {
                 nextPowerOfTwo *= 2;
                 count++;
+                powCount *= 2;
             }
             kArray[i] = count;
+            kPowArray[i] = powCount;
         }
     }
 
@@ -61,7 +68,7 @@ public class SparseTableRMQ implements RMQ {
     }
 
     private int getNumberToThePowerOfTwo(int number) {
-        kPowArray[number];
+        return kPowArray[number];
     }
 
     /**
@@ -98,9 +105,8 @@ public class SparseTableRMQ implements RMQ {
      */
     @Override
     public int rmq(int i, int j) {
-        int sparseTableColumn = getHighestKUpToNumber(j-i-1);
+        int sparseTableColumn = getHighestKUpToNumber(j-i+1);
         int sparseTableRange = getNumberToThePowerOfTwo(sparseTableColumn);
-
         return 0;
     }
 }
