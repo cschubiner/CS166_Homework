@@ -8,12 +8,13 @@ package rmq;
  */
 public class SparseTableRMQ implements RMQ {
     
-    int[][] sparseTable; 
+    int[][] sparseTable;
+    int[] kArray;
 
     /*
         Fills the sparse table. 
     */ 
-    private filleSparseTable(float[] elems) {
+    private void fillSparseTable(float[] elems) {
         int length_eval = 1; 
         int elem_length = sparseTable.length; 
         int log_length = sparseTable[0].length; 
@@ -23,6 +24,27 @@ public class SparseTableRMQ implements RMQ {
         }
     }
 
+    /* kArray[i] =
+    // X 0 1 1 2 2 2 2 3 3 3 3 3 3 3 3 4
+     */
+    private void precomputeKArray(int arraySize) {
+        kArray = new int[arraySize+1];
+        kArray[1] = 0;
+        int count = 0;
+        int nextPowerOfTwo = 2;
+        for (int i = 2; i < arraySize; i++) {
+            if (i == nextPowerOfTwo) {
+                nextPowerOfTwo *= 2;
+                count++;
+            }
+            kArray[i] = count;
+        }
+    }
+
+    private int getHighestKUpToNumber(int number) {
+        return kArray[number - 1];
+    }
+
     /**
      * Creates a new SparseTableRMQ structure to answer queries about the
      * array given by elems.
@@ -30,21 +52,10 @@ public class SparseTableRMQ implements RMQ {
      * @elems The array over which RMQ should be computed.
      */
     public SparseTableRMQ(float[] elems) {
-       int elems_length = elems.length; 
-       int log_length = getHighestKUptoNumber(elems.length);  
-       sparseTable = new int[elem_length][log_length]; 
-       
-
-    }
-
-    private int getHighestKUpToNumber(int number) {
-        if (number == 1) return 0;
-        int ret = 1;
-        while (true) {
-            if (Math.pow(2, ret) > number)
-                return ret - 1;
-            ret++;
-        }
+       int elems_length = elems.length;
+       precomputeKArray(elems_length);
+       int log_length = getHighestKUpToNumber(elems.length);
+       sparseTable = new int[elems_length][log_length];
     }
 
     /**
