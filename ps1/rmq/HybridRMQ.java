@@ -7,6 +7,12 @@ package rmq;
  * You will implement this class for problem 3.iii of Problem Set One.
  */
 public class HybridRMQ implements RMQ {
+    //block size
+    int b;
+
+    SparseTableRMQ topLayerRMQ;
+    int[] topLayerBlocks;
+
     /**
      * Creates a new HybridRMQ structure to answer queries about the
      * array given by elems.
