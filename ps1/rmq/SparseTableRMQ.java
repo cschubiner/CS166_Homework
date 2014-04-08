@@ -15,12 +15,24 @@ public class SparseTableRMQ implements RMQ {
         Fills the sparse table. 
     */ 
     private void fillSparseTable(float[] elems) {
-        int length_eval = 1; 
-        int elem_length = sparseTable.length; 
+        int pow_of_two = 0;
+        int elem_length = sparseTable.length;
         int log_length = sparseTable[0].length; 
 
         for(int i=0; i < sparseTable.length; i ++) {
-            elems[i][length_eval] = i; 
+            sparseTable[i][pow_of_two] = i;
+        }
+        pow_of_two++; 
+        while(pow_of_two < log_length) {
+        	int two_power = (int) Math.pow(2, pow_of_two - 1);
+        	for(int i = 0; i < elem_length; i++) {
+        		if(i + Math.pow(2, pow_of_two) - 1 >= elem_length) 
+        			break; 
+        		float comp1 = elems[sparseTable[i][pow_of_two-1]]; 
+        		float comp2 = elems[sparseTable[i+two_power][pow_of_two-1]]; 
+        		sparseTable[i][pow_of_two] = comp1 > comp2 ? sparseTable[i][pow_of_two-1] : sparseTable[i+two_power][pow_of_two-1]; 
+        	}
+        	pow_of_two ++; 
         }
     }
 
@@ -30,7 +42,7 @@ public class SparseTableRMQ implements RMQ {
     private void precomputeKArray(int arraySize) {
         kArray = new int[arraySize+1];
         kArray[1] = 0;
-        int count = 0;
+        int count = 1;
         int nextPowerOfTwo = 2;
         for (int i = 2; i < arraySize; i++) {
             if (i == nextPowerOfTwo) {
@@ -42,7 +54,7 @@ public class SparseTableRMQ implements RMQ {
     }
 
     private int getHighestKUpToNumber(int number) {
-        return kArray[number - 1];
+        return kArray[number];
     }
 
     /**
@@ -53,9 +65,22 @@ public class SparseTableRMQ implements RMQ {
      */
     public SparseTableRMQ(float[] elems) {
        int elems_length = elems.length;
-       precomputeKArray(elems_length);
+        if (elems_length == 0) return;
+        precomputeKArray(elems_length);
        int log_length = getHighestKUpToNumber(elems.length);
-       sparseTable = new int[elems_length][log_length];
+       sparseTable = new int[elems_length][log_length+1]; 
+       fillSparseTable(elems);
+        if (elems_length > 1)
+        print2dArray(sparseTable);
+    }
+
+    private void print2dArray(int[][] arr) {
+        for (int i1 = 0; i1 < arr.length; i1++) {
+            for (int j1 = 0; j1 < arr[0].length; j1++)
+                System.out.print(arr[i1][j1]);
+            System.out.println();
+        }
+        System.out.println();
     }
 
     /**
@@ -65,7 +90,6 @@ public class SparseTableRMQ implements RMQ {
     @Override
     public int rmq(int i, int j) {
         // TODO: Implement this!
-        System.out.println(getHighestKUpToNumber(10));
-        return -1;
+        return 0;
     }
 }

@@ -43,15 +43,6 @@ public class PrecomputedRMQ implements RMQ {
         }
     }
 
-    private void print2dArray(int[][] arr) {
-        for (int i1 = 0; i1 < arr.length; i1++) {
-            for (int j1 = 0; j1 < arr[0].length; j1++)
-                System.out.print(arr[i1][j1]);
-            System.out.println();
-        }
-        System.out.println();
-    }
-
     /**
      * Evaluates RMQ(i, j) over the array stored by the constructor, returning
      * the index of the minimum value in that range.
