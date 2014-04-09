@@ -80,7 +80,6 @@ public class FischerHeunRMQ implements RMQ {
             bs.set(bsIndex, true);
             bsIndex++;
         }
-        // it's unnecessary to pop remainder of elements off stack
         return bitSetToInt(bs);
     }
 
