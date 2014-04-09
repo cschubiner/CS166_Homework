@@ -10,15 +10,6 @@ public class PrecomputedRMQ implements RMQ {
 
     int[][] table;
 
-    private int calculateRMQ(float[] elems, int i, int j) {
-        int min = i;
-        for (int index = i + 1; index <= j; index++) {
-            if (elems[index] < elems[min])
-                min = index;
-        }
-        return min;
-    }
-
     /**
      * Creates a new PrecomputedRMQ structure to answer queries about the
      * array given by elems.

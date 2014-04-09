@@ -14,7 +14,21 @@ public class HybridRMQ implements RMQ {
     float[] topLayerBlocks;
     float[] original_array;
 
+    /**
+     * Creates a new HybridRMQ structure to answer queries about the
+     * array given by elems.
+     *
+     * @elems The array over which RMQ should be computed.
+     */
+    public HybridRMQ(float[] elems) {
+        int elems_length = elems.length;
+        if (elems_length <= 1) return;
+        original_array = elems;
+        b = (int) (Math.log(elems_length) / Math.log(2));
+        createTopLayer(elems);
+    }
 
+    // Creates the top layer of the hybrid structure. The top layer is a sparse top atop blocks of size b.
     private void createTopLayer(float[] elems) {
         float minVal = Float.MAX_VALUE;
         int numBlocks = elems.length / b;
@@ -36,47 +50,33 @@ public class HybridRMQ implements RMQ {
         topLayerRMQ = new SparseTableRMQ(topLayerBlocks);
     }
 
-    /**
-     * Creates a new HybridRMQ structure to answer queries about the
-     * array given by elems.
-     *
-     * @elems The array over which RMQ should be computed.
-     */
-    public HybridRMQ(float[] elems) {
-//        elems = new float[]{31,41,59,26,53,58,97,93,23,84,62,64,33,27};
-        int elems_length = elems.length;
-        if (elems_length <= 1) return;
-        original_array = elems;
-        b = (int)(Math.log(elems_length)/Math.log(2));
-        createTopLayer(elems);
-    }
-
-
-
+    /* Returns the first block that we should use when using the top layer's RMQ structure  */
     private int getBlockStart(int i) {
-        int k = i/b; 
-        if(i % b == 0) {
-            return k; 
+        int k = i / b;
+        if (i % b == 0) {
+            return k;
         }
-        return k + 1; 
+        return k + 1;
     }
 
+    /* Returns the last block that we should use when using the top layer's RMQ structure  */
     private int getBlockEnd(int j) {
-        int k = j/b;
-        if(j % b == b-1) {
-            return k; 
+        int k = j / b;
+        if (j % b == b - 1) {
+            return k;
         }
-        return k - 1; 
+        return k - 1;
     }
 
+    /* Finds the minimum value within a range by doing a simple linear search.*/
     private int linearGetMin(int i, int j) {
-        int min_index = i; 
+        int min_index = i;
         float min_value = original_array[i];
 
-        for(int k = i + 1; k <= j; k ++) {
-            if(original_array[k] < min_value) {
-                min_value = original_array[k]; 
-                min_index = k; 
+        for (int k = i + 1; k <= j; k++) {
+            if (original_array[k] < min_value) {
+                min_value = original_array[k];
+                min_index = k;
             }
         }
 
@@ -91,29 +91,29 @@ public class HybridRMQ implements RMQ {
     public int rmq(int i, int j) {
         if (i == j) return i;
         int block_start = getBlockStart(i);
-        int block_end = getBlockEnd(j); 
-        if(block_start <= block_end) {
+        int block_end = getBlockEnd(j);
+        if (block_start <= block_end) {
             int bcm = topLayerRMQ.rmq(block_start, block_end);
-            int block_max = linearGetMin(bcm* b, (bcm+1)*b -1);
+            int block_max = linearGetMin(bcm * b, (bcm + 1) * b - 1);
             int linear_end_first = block_start * b - 1;
-            int linear_start_second = (block_end + 1) * b; 
+            int linear_start_second = (block_end + 1) * b;
 
-            int top_linear_index; 
-            if(linear_end_first <i && linear_start_second > j) {
-                return block_max; 
-            } else if( linear_end_first < i && linear_start_second <= j ) {
-                top_linear_index = linearGetMin(linear_start_second, j); 
-            } else if( linear_end_first >= i && linear_start_second > j ) {
-                top_linear_index = linearGetMin(i, linear_end_first); 
+            int top_linear_index;
+            if (linear_end_first < i && linear_start_second > j) {
+                return block_max;
+            } else if (linear_end_first < i && linear_start_second <= j) {
+                top_linear_index = linearGetMin(linear_start_second, j);
+            } else if (linear_end_first >= i && linear_start_second > j) {
+                top_linear_index = linearGetMin(i, linear_end_first);
             } else {
                 int first = linearGetMin(i, linear_end_first);
                 int second = linearGetMin(linear_start_second, j);
-                top_linear_index = original_array[first] < original_array[second] ? first : second;  
+                top_linear_index = original_array[first] < original_array[second] ? first : second;
             }
-            
+
             return original_array[block_max] < original_array[top_linear_index] ? block_max : top_linear_index;
         } else {
-            return linearGetMin(i, j); 
+            return linearGetMin(i, j);
         }
     }
 }

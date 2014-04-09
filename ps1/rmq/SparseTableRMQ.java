@@ -13,8 +13,24 @@ public class SparseTableRMQ implements RMQ {
     int[] kPowArray;
     float[] original_array;
 
+    /**
+     * Creates a new SparseTableRMQ structure to answer queries about the
+     * array given by elems.
+     *
+     * @elems The array over which RMQ should be computed.
+     */
+    public SparseTableRMQ(float[] elems) {
+        original_array = elems;
+        int elems_length = elems.length;
+        if (elems_length == 0) return;
+        precomputeKArray(elems_length);
+        int log_length = getHighestKUpToNumber(elems.length);
+        sparseTable = new int[elems_length][log_length + 1];
+        fillSparseTable(elems);
+    }
+
     /*
-        Fills the sparse table. 
+        Fills the sparse table.
     */
     private void fillSparseTable(float[] elems) {
         int pow_of_two = 0;
@@ -43,7 +59,7 @@ public class SparseTableRMQ implements RMQ {
      0 0 1 1 2 2 2 2 3 3 3 3 3 3 3 3 4...
      kPowArray = 2^i
      0 2 4 8 16 32...
-     Note: The zeroth element in kArray and kPowArray is irrelevant.
+     Note: The zeroth element in kArray and kPowArray is irrelevant - we're pretending the arrays are 1-indexed..
      */
     private void precomputeKArray(int arraySize) {
         kArray = new int[arraySize + 1];
@@ -74,43 +90,14 @@ public class SparseTableRMQ implements RMQ {
     }
 
     /**
-     * Creates a new SparseTableRMQ structure to answer queries about the
-     * array given by elems.
-     *
-     * @elems The array over which RMQ should be computed.
-     */
-    public SparseTableRMQ(float[] elems) {
-        original_array = elems;
-        int elems_length = elems.length;
-        if (elems_length == 0) return;
-        precomputeKArray(elems_length);
-        int log_length = getHighestKUpToNumber(elems.length);
-        sparseTable = new int[elems_length][log_length + 1];
-        fillSparseTable(elems);
-        if (elems_length == 5)
-            print2dArray(sparseTable);
-    }
-
-    private void print2dArray(int[][] arr) {
-        for (int i1 = 0; i1 < arr.length; i1++) {
-            for (int j1 = 0; j1 < arr[0].length; j1++)
-                System.out.print(arr[i1][j1]);
-            System.out.println();
-        }
-        System.out.println();
-    }
-
-    /**
      * Evaluates RMQ(i, j) over the array stored by the constructor, returning
      * the index of the minimum value in that range.
      */
     @Override
     public int rmq(int i, int j) {
-        if (i == j)
-            return i;
+        if (i == j) return i;
         int sparseTableColumn = getHighestKUpToNumber(j - i + 1);
         int sparseTableRange = getNumberToThePowerOfTwo(sparseTableColumn);
-
         int second_to_comp = j - sparseTableRange + 1;
 
         if (i == second_to_comp) {
