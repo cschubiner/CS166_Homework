@@ -24,16 +24,20 @@
  * To follow the left pointer, you will need to first mask out this bit.
  * Otherwise, you will end up at the wrong address.
  */
-struct node {
-  struct node* left;
-  struct node* right;
+struct node
+{
+  struct node *left;
+  struct node *right;
   int key;
 };
+
+_Bool isNodeRed(struct node *node);
+void setNodeRed(struct node *node);
 
 /**
  * Function: is_red_black_tree(struct node* root);
  * --------------------------------------------------------------------------
- * Given a pointer to the root of a tree, returns whether that tree is a 
+ * Given a pointer to the root of a tree, returns whether that tree is a
  * red/black tree. This function can assume the following:
  *
  * 1. The pointer provided either points to a valid address or to NULL.
@@ -49,7 +53,7 @@ struct node {
  * source files, then you can use the name bool along with the values
  * true and false rather than _True and _False.)
  */
-_Bool is_red_black_tree(struct node* root);
+_Bool is_red_black_tree(struct node *root);
 
 /**
  * Function: to_red_black_tree(int elems[], unsigned length);
@@ -59,6 +63,6 @@ _Bool is_red_black_tree(struct node* root);
  *
  * For full credit, this function must run in time O(n).
  */
-struct node* to_red_black_tree(int elems[], unsigned length);
+struct node *to_red_black_tree(int elems[], unsigned length);
 
 #endif

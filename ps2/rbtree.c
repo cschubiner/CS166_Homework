@@ -7,7 +7,7 @@
 /**
  * Function: is_red_black_tree(struct node* root);
  * --------------------------------------------------------------------------
- * Given a pointer to the root of a tree, returns whether that tree is a 
+ * Given a pointer to the root of a tree, returns whether that tree is a
  * red/black tree. This function can assume the following:
  *
  * 1. The pointer provided either points to a valid address or to NULL.
@@ -18,9 +18,20 @@
  *
  * TODO: Edit this comment to describe why this function runs in time O(n).
  */
-bool is_red_black_tree(struct node* root) {
-	/* TODO: Implement this! */
-	return false;
+bool is_red_black_tree(struct node *root)
+{
+  /* TODO: Implement this! */
+  return false;
+}
+
+_Bool isNodeRed(struct node *node)
+{
+  return ((uintptr_t)node->left) & 1;
+}
+
+void setNodeRed(struct node *node)
+{
+  node->left |= (void *)1;
 }
 
 /**
@@ -31,7 +42,8 @@ bool is_red_black_tree(struct node* root) {
  *
  * TODO: Edit this comment to describe why this function runs in time O(n).
  */
-struct node* to_red_black_tree(int elems[], unsigned length) {
-	/* TODO: Implement this! */
-	return NULL;
+struct node *to_red_black_tree(int elems[], unsigned length)
+{
+  /* TODO: Implement this! */
+  return NULL;
 }

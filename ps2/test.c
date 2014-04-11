@@ -7,5 +7,6 @@
 
 int main()
 {
-  printf("Hello world\n");
+  struct node root;
+  printf("red %d", isNodeRed(&root));
 }
