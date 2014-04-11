@@ -1,16 +1,23 @@
+IDIR =.
 CC=gcc
-CFLAGS=-c -Wall -std=c99
-LDFLAGS=
-SOURCES=rbtree.c rbtree.h
-OBJECTS=$(SOURCES:.cpp=.o)
-EXECUTABLE=hello
+CFLAGS=-I$(IDIR) -Wall
 
-all: $(SOURCES) $(EXECUTABLE)
+ODIR=.
+LDIR =.
 
-$(EXECUTABLE): $(OBJECTS)
-	$(CC) $(LDFLAGS) $(OBJECTS) -o $@
+_DEPS = rbtree.h
+DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
-.cpp.o:
-	$(CC) $(CFLAGS) $< -o $@
+_OBJ = rbtree.o test.c
+OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
+$(ODIR)/%.o: %.c $(DEPS)
+	$(CC) -c -o $@ $< $(CFLAGS)
 
+test: $(OBJ)
+	gcc -o $@ $^ $(CFLAGS)
+
+.PHONY: clean
+
+clean:
+	rm -f $(ODIR)/*.o *~ core $(INCDIR)/*~
