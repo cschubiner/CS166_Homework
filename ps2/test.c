@@ -44,7 +44,7 @@ void test1() {
     // setNodeRed(third1);
     setNodeRed(third2);
 
-    printf("is_red_black_tree(root) %s\n", is_red_black_tree(root) ? "true" : "false");
+    assert(!is_red_black_tree(root));
 
     // free(root);
     // free(lStruct);
@@ -58,7 +58,6 @@ void test1() {
 }
 
 void test2() {
-    printf("starting test 2\n");
     struct node rootStruct;
     struct node * root = &rootStruct;
     setNodeRed(root);
@@ -70,7 +69,7 @@ void test2() {
     setNodeRed(root->left);
     getLeftChild(root)->left = &lStruct3;
     setNodeRed(root->right);
-    printf("FALSE: is_red_black_tree(root) %s\n", is_red_black_tree(root) ? "TRUE" : "FALSE");
+    assert(!is_red_black_tree(root));
 }
 
 void aTest1() {
@@ -88,13 +87,6 @@ void aTest2() {
     int arr[] = {1, 6, 8, 11, 13, 15, 17, 22, 25, 27};
     struct node * root = to_red_black_tree(arr, 10);
     assert(root->key == 13);
-
-
-    // printTree(root); printf("\n");
-
-    // printf("%d\n", root->key);
-    // printf("%d\n", getLeftChild(root)->key);
-
     assert(is_red_black_tree(root));
     printf("finished atest2\n\n");
 }
@@ -127,11 +119,9 @@ void aTest5() {
 void aTest6() {
     int arr[] = {3, 4, 5, 6};
     struct node * root = to_red_black_tree(arr, 4);
-    printf("root %d %d\n", root->key, root->right->key);
-    printTree(root);
+    // printf("root %d %d\n", root->key, root->right->key);
+    // printTree(root);
     assert(is_red_black_tree(root));
-    root->right->left = NULL;
-    assert(!is_red_black_tree(root));
     printf("finished atest6\n\n");
 }
 
