@@ -56,6 +56,8 @@ _Bool is_red_black_tree(struct node * root);
 
 struct node * getLeftChild(struct node * node);
 struct node * getRightChild(struct node * node);
+void setRightChild(struct node * root, struct node *);
+void setLeftChild(struct node * root, struct node *);
 
 /**
  * Function: to_red_black_tree(int elems[], unsigned length);

@@ -10,31 +10,43 @@
 void test1() {
 
     // struct node rootStruct;
-    struct node * root = malloc(sizeof(struct node));
+
+    struct node * root = calloc(1, sizeof(struct node));
     // setNodeRed(root);
-    struct node * lStruct = malloc(sizeof(struct node));
-    printf("lStruct 1 loc: %x\n", lStruct) ;
+    struct node * lStruct = calloc(1, sizeof(struct node));
 
-    struct node * lStruct2 = malloc(sizeof(struct node));
-    printf("lStruct2 loc: %x\n", lStruct2) ;
+    struct node * lStruct2 = calloc(1, sizeof(struct node));
+
+    setLeftChild(root, lStruct);
+    setRightChild(root, lStruct2);
+
+    setNodeRed(lStruct2);
+    // setNodeRed(root->left);
 
 
-    lStruct->left = NULL;
-    lStruct->right = NULL;
-    lStruct2->left = NULL;
-    lStruct2->right = NULL;
+    struct node * third1 = calloc(1, sizeof(struct node));
+    struct node * third2 = calloc(1, sizeof(struct node));
+    struct node * third3 = calloc(1, sizeof(struct node));
+    struct node * third4 = calloc(1, sizeof(struct node));
 
-    root->left = lStruct;
-    root->right = lStruct2;
+    setLeftChild(lStruct, third1);
+    setRightChild(lStruct, third2);
+    setLeftChild(lStruct2, third3);
+    setRightChild(lStruct2, third4);
 
-    setNodeRed(root->left);
-    // setNodeRed(root->right);
+    setNodeRed(third1);
+    setNodeRed(third2);
 
     printf("is_red_black_tree(root) %s\n", is_red_black_tree(root) ? "true" : "false");
 
     free(root);
     free(lStruct);
     free(lStruct2);
+
+    free(third1);
+    free(third2);
+    free(third3);
+    free(third4);
 
 }
 
