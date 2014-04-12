@@ -58,6 +58,7 @@ void test1() {
 }
 
 void test2() {
+    printf("starting test 2\n");
     struct node rootStruct;
     struct node * root = &rootStruct;
     setNodeRed(root);
@@ -67,8 +68,9 @@ void test2() {
     root->left = &lStruct;
     root->right = &lStruct2;
     setNodeRed(root->left);
-    root->left->left = &lStruct3;
+    getLeftChild(root)->left = &lStruct3;
     setNodeRed(root->right);
+    printf("about to crash\n");
     printf("FALSE: is_red_black_tree(root) %s\n", is_red_black_tree(root) ? "TRUE" : "FALSE");
 }
 
