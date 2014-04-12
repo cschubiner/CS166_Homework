@@ -82,8 +82,12 @@ bool isNodeRed(struct node * node) {
 }
 
 void setNodeRed(struct node * node) {
-    uintptr_t newLeft = (uintptr_t)node->left | 1;
-    node->left = (void *)newLeft;
+    if (node->left) {
+        uintptr_t newLeft = (uintptr_t)node->left | 1;
+        node->left = (void *)newLeft;
+    } else {
+        node->left = (void *) 1;
+    }
 }
 
 struct node * to_red_black_tree_helper(int elems[], int low, int high, bool isParentRed) {
