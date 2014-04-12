@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <stdint.h>
+#include <stdio.h>
 
 /**
  * Function: is_red_black_tree(struct node* root);
@@ -25,7 +26,7 @@ static bool is_red_black_tree_helper(struct node *node, int *black_path, int bla
 
 bool is_red_black_tree(struct node *root) {
     int black_path = -1; // set as an default value to stand for value needed
-    return is_red_black_tree;
+    return is_red_black_tree_helper(root, &black_path, 0);
 }
 
 static bool is_red_black_tree_helper(struct node *node, int *black_path, int black_path_count) {
@@ -37,23 +38,27 @@ static bool is_red_black_tree_helper(struct node *node, int *black_path, int bla
             return *black_path == black_path_count;
         }
     }
+    struct node * left = getLeftChild(node);
+
+    struct node * right = getRightChild(node);
+
     if (isNodeRed(node)) {
-        if (node->left != NULL && isNodeRed(node->left)) {
+
+        if (left != NULL && isNodeRed(left)) {
             return false;
         }
-        if (node->right != NULL && isNodeRed(node->right)) {
+        if (right != NULL && isNodeRed(right)) {
             return false;
         }
     } else {
         black_path_count ++;
     }
 
-    return is_red_black_tree_helper(node->left, black_path, black_path_count)  &&  is_red_black_tree_helper(node->right, black_path, black_path_count);
+    return is_red_black_tree_helper(left, black_path, black_path_count)  &&  is_red_black_tree_helper(right, black_path, black_path_count);
 }
 
 struct node *getLeftChild(struct node *node) {
-    uintptr_t ret = (uintptr_t)node->left & 0xFFFFFFFE;
-    return (void *) ret;
+    return (struct node*)((uintptr_t)node->left & ~1);
 }
 
 struct node *getRightChild(struct node *node) {
