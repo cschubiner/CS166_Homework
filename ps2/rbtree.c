@@ -58,22 +58,14 @@ static bool is_red_black_tree_helper(struct node * node, int * black_path, int b
 }
 
 
-struct node *getLeftChild(struct node *node) {
-    return (struct node*)((uintptr_t)node->left & ~1);
+struct node * getLeftChild(struct node * node) {
+    return (struct node *)((uintptr_t)node->left & ~1);
 }
 
 struct node * getRightChild(struct node * node) {
     return node->right;
 }
 
-void makeRightChild(struct node * root) {
-}
-
-void makeLeft(struct node * root) {
-    struct node leftChild;
-    root->left = malloc(sizeof(leftChild));
-    root->left = &leftChild;
-}
 
 bool isNodeRed(struct node * node) {
     return ((uintptr_t)node->left) & 1;
@@ -84,19 +76,22 @@ void setNodeRed(struct node * node) {
     node->left = (void *)newLeft;
 }
 
-struct node * to_red_black_tree_helper(int elems[], int low, int high) {
-    if (low > high)
+struct node * to_red_black_tree_helper(int elems[], int low, int high, bool isParentRed) {
+    if (low >= high)
         return NULL;
 
-    int mid = (high - low) / 2;
+    int mid = (high + low) / 2;
 
     struct node * root = malloc(sizeof(struct node));
-    root->left = NULL;
-    root->right = NULL;
     root->key = elems[mid];
 
-    root->left = to_red_black_tree_helper(elems, low, mid - 1);
-    root->right = to_red_black_tree_helper(elems, low, mid + 1);
+    root->left = to_red_black_tree_helper(elems, low, mid - 1, !isParentRed);
+    root->right = to_red_black_tree_helper(elems, mid + 1, high, !isParentRed);
+
+    if (!isParentRed) {
+        setNodeRed(root->left);
+        setNodeRed(root->right);
+    }
     return root;
 }
 
@@ -109,5 +104,5 @@ struct node * to_red_black_tree_helper(int elems[], int low, int high) {
  * TODO: Edit this comment to describe why this function runs in time O(n).
  */
 struct node * to_red_black_tree(int elems[], unsigned length) {
-    return to_red_black_tree_helper(elems, 0, length - 1);
+    return to_red_black_tree_helper(elems, 0, length - 1, true);
 }

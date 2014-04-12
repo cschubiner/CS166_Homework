@@ -25,13 +25,13 @@
  * Otherwise, you will end up at the wrong address.
  */
 struct node {
-    struct node *left;
-    struct node *right;
+    struct node * left;
+    struct node * right;
     int key;
 };
 
-_Bool isNodeRed(struct node *node);
-void setNodeRed(struct node *node);
+_Bool isNodeRed(struct node * node);
+void setNodeRed(struct node * node);
 
 /**
  * Function: is_red_black_tree(struct node* root);
@@ -52,12 +52,10 @@ void setNodeRed(struct node *node);
  * source files, then you can use the name bool along with the values
  * true and false rather than _True and _False.)
  */
-_Bool is_red_black_tree(struct node *root);
+_Bool is_red_black_tree(struct node * root);
 
-struct node *getLeftChild(struct node *node);
-struct node *getRightChild(struct node *node);
-void makeRightChild(struct node *root);
-void makeLeft(struct node *root);
+struct node * getLeftChild(struct node * node);
+struct node * getRightChild(struct node * node);
 
 /**
  * Function: to_red_black_tree(int elems[], unsigned length);
@@ -67,6 +65,6 @@ void makeLeft(struct node *root);
  *
  * For full credit, this function must run in time O(n).
  */
-struct node *to_red_black_tree(int elems[], unsigned length);
+struct node * to_red_black_tree(int elems[], unsigned length);
 
 #endif
