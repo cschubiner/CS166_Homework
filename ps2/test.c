@@ -6,6 +6,13 @@
 #include <stdint.h>
 #include <assert.h>
 
+void printTree(struct node * n) {
+    if (n == NULL) return;
+    printTree(getLeftChild(n));
+    printf("%d(%s) ", n->key, isNodeRed(n) ? "red" : "black");
+    printTree(n->right);
+}
+
 
 void test1() {
 
@@ -72,7 +79,8 @@ void aTest1() {
 
     printf("* finished creating array\n");
     assert(is_red_black_tree(root));
-    printf("finished atest1\n");
+    printTree(root); printf("\n");
+    printf("finished atest1\n\n");
 
 }
 
@@ -83,26 +91,30 @@ void aTest2() {
 
 
     printf("* finished creating array\n");
-    assert(is_red_black_tree(root));
-    printf("finished atest2\n");
+    printTree(root); printf("\n");
 
+    printf("%d\n", root->key);
+    printf("%d\n", getLeftChild(root)->key);
+
+    assert(is_red_black_tree(root));
+    printf("finished atest2\n\n");
 }
 
 void aTest3() {
     int arr[] = {3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 14, 15, 17};
     struct node * root = to_red_black_tree(arr, 13);
-    assert(root->key == 12);
 
     printf("* finished creating array\n");
     assert(is_red_black_tree(root));
-    printf("finished atest3\n");
+    printf("finished atest3\n\n");
 
 }
 
 
+
 int main() {
-    // test1();
-    // test2();
+    test1();
+    test2();
     aTest1();
     aTest2();
     aTest3();

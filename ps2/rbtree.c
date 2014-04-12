@@ -87,21 +87,22 @@ void setNodeRed(struct node * node) {
 }
 
 struct node * to_red_black_tree_helper(int elems[], int low, int high, bool isParentRed) {
-    if (low >= high)
+    if (low > high)
         return NULL;
 
-    int mid = (high + low) / 2;
+    int mid = low + (high - low) / 2;
 
     struct node * root = malloc(sizeof(struct node));
     root->key = elems[mid];
 
-    root->left = to_red_black_tree_helper(elems, low, mid - 1, !isParentRed);
-    root->right = to_red_black_tree_helper(elems, mid + 1, high, !isParentRed);
-
-    if (!isParentRed) {
-        setNodeRed(root->left);
-        setNodeRed(root->right);
+    if (low < high) {
+        root->left = to_red_black_tree_helper(elems, low, mid - 1, !isParentRed);
+        root->right = to_red_black_tree_helper(elems, mid + 1, high, !isParentRed);
     }
+    if (!isParentRed) {
+        setNodeRed(root);
+    }
+
     return root;
 }
 
