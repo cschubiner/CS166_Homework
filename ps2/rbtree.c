@@ -16,15 +16,45 @@
  *    (though the left pointers may need to be tweaked a bit to get to
  *    valid data).
  *
- * TODO: Edit this comment to describe why this function runs in time O(n).
+ * This code runs in O(n) because every node in the tree is visited once
+ * and during each vist, O(1) work is done on each node. A DFS search
+ * through a tree with no cycles will at most visit each node only once.
+ * In each cycle, I am checking whether the node is NULL and whether it is * a red node. These conditions can be checked in O(1).
  */
+
+static bool is_red_black_tree_helper(struct node* node, int* black_path, int black_path_count);
+
 bool is_red_black_tree(struct node *root)
 {
-  /* TODO: Implement this! */
-  return false;
+  int black_path = -1; // set as an default value to stand for value needed
+  return is_red_black_tree;
 }
 
-_Bool isNodeRed(struct node *node)
+static bool is_red_black_tree_helper(struct node* node, int* black_path, int black_path_count) {
+  if(node == NULL) {
+    if(*black_path == -1) {
+      *black_path = black_path_count;
+      return true;
+    }
+    else {
+      return *black_path == black_path_count;
+    }
+  }
+  if(isNodeRed(node)) {
+    if(node->left!= NULL && isNodeRed(node->left)) {
+      return false;
+    }
+    if(node->right!= NULL && isNodeRed(node->right)) {
+      return false;
+    }
+  } else {
+    black_path_count ++;
+  }
+
+  return is_red_black_tree_helper(node->left, black_path, black_path_count)  &&  is_red_black_tree_helper(node->right, black_path, black_path_count);
+}
+
+bool isNodeRed(struct node *node)
 {
   return ((uintptr_t)node->left) & 1;
 }
