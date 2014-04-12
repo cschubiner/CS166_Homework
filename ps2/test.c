@@ -5,8 +5,20 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-int main()
-{
-  struct node root;
-  printf("red %d", isNodeRed(&root));
+void test1() {
+    struct node rootStruct;
+    struct node *root = &rootStruct;
+    setNodeRed(root);
+    struct node lStruct;
+    struct node lStruct2;
+    root->left = &lStruct;
+    root->right = &lStruct2;
+    setNodeRed(root->left);
+    setNodeRed(root->right);
+    printf("is_red_black_tree(root) %s", is_red_black_tree(root) ? "true" : "false");
 }
+
+int main() {
+    test1();
+}
+

@@ -24,11 +24,10 @@
  * To follow the left pointer, you will need to first mask out this bit.
  * Otherwise, you will end up at the wrong address.
  */
-struct node
-{
-  struct node *left;
-  struct node *right;
-  int key;
+struct node {
+    struct node *left;
+    struct node *right;
+    int key;
 };
 
 _Bool isNodeRed(struct node *node);
@@ -54,6 +53,11 @@ void setNodeRed(struct node *node);
  * true and false rather than _True and _False.)
  */
 _Bool is_red_black_tree(struct node *root);
+
+struct node *getLeftChild(struct node *node);
+struct node *getRightChild(struct node *node);
+void makeRightChild(struct node *root);
+void makeLeft(struct node *root);
 
 /**
  * Function: to_red_black_tree(int elems[], unsigned length);

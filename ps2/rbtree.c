@@ -18,20 +18,36 @@
  *
  * TODO: Edit this comment to describe why this function runs in time O(n).
  */
-bool is_red_black_tree(struct node *root)
-{
-  /* TODO: Implement this! */
-  return false;
+bool is_red_black_tree(struct node *root) {
+    /* TODO: Implement this! */
+    return false;
 }
 
-_Bool isNodeRed(struct node *node)
-{
-  return ((uintptr_t)node->left) & 1;
+struct node *getLeftChild(struct node *node) {
+    uintptr_t ret = (uintptr_t)node->left & 0xFFFFFFFE;
+    return (void *) ret;
 }
 
-void setNodeRed(struct node *node)
-{
-  node->left |= (void *)1;
+struct node *getRightChild(struct node *node) {
+    return node->right;
+}
+
+void makeRightChild(struct node *root) {
+}
+
+void makeLeft(struct node *root) {
+    struct node leftChild;
+    root->left = malloc(sizeof(leftChild));
+    root->left = &leftChild;
+}
+
+bool isNodeRed(struct node *node) {
+    return ((uintptr_t)node->left) & 1;
+}
+
+void setNodeRed(struct node *node) {
+    uintptr_t newLeft = (uintptr_t)node->left | 1;
+    node->left = (void *)newLeft;
 }
 
 /**
@@ -42,8 +58,7 @@ void setNodeRed(struct node *node)
  *
  * TODO: Edit this comment to describe why this function runs in time O(n).
  */
-struct node *to_red_black_tree(int elems[], unsigned length)
-{
-  /* TODO: Implement this! */
-  return NULL;
+struct node *to_red_black_tree(int elems[], unsigned length) {
+    /* TODO: Implement this! */
+    return NULL;
 }
