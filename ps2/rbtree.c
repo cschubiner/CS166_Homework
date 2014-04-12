@@ -22,14 +22,14 @@
  * through a tree with no cycles will at most visit each node only once.
  * In each cycle, I am checking whether the node is NULL and whether it is * a red node. These conditions can be checked in O(1).
  */
-static bool is_red_black_tree_helper(struct node *node, int *black_path, int black_path_count);
+static bool is_red_black_tree_helper(struct node * node, int * black_path, int black_path_count);
 
-bool is_red_black_tree(struct node *root) {
+bool is_red_black_tree(struct node * root) {
     int black_path = -1; // set as an default value to stand for value needed
     return is_red_black_tree_helper(root, &black_path, 0);
 }
 
-static bool is_red_black_tree_helper(struct node *node, int *black_path, int black_path_count) {
+static bool is_red_black_tree_helper(struct node * node, int * black_path, int black_path_count) {
     if (node == NULL) {
         if (*black_path == -1) {
             *black_path = black_path_count;
@@ -57,30 +57,47 @@ static bool is_red_black_tree_helper(struct node *node, int *black_path, int bla
     return is_red_black_tree_helper(left, black_path, black_path_count)  &&  is_red_black_tree_helper(right, black_path, black_path_count);
 }
 
+
 struct node *getLeftChild(struct node *node) {
     return (struct node*)((uintptr_t)node->left & ~1);
 }
 
-struct node *getRightChild(struct node *node) {
+struct node * getRightChild(struct node * node) {
     return node->right;
 }
 
-void makeRightChild(struct node *root) {
+void makeRightChild(struct node * root) {
 }
 
-void makeLeft(struct node *root) {
+void makeLeft(struct node * root) {
     struct node leftChild;
     root->left = malloc(sizeof(leftChild));
     root->left = &leftChild;
 }
 
-bool isNodeRed(struct node *node) {
+bool isNodeRed(struct node * node) {
     return ((uintptr_t)node->left) & 1;
 }
 
-void setNodeRed(struct node *node) {
+void setNodeRed(struct node * node) {
     uintptr_t newLeft = (uintptr_t)node->left | 1;
     node->left = (void *)newLeft;
+}
+
+struct node * to_red_black_tree_helper(int elems[], int low, int high) {
+    if (low > high)
+        return NULL;
+
+    int mid = (high - low) / 2;
+
+    struct node * root = malloc(sizeof(struct node));
+    root->left = NULL;
+    root->right = NULL;
+    root->key = elems[mid];
+
+    root->left = to_red_black_tree_helper(elems, low, mid - 1);
+    root->right = to_red_black_tree_helper(elems, low, mid + 1);
+    return root;
 }
 
 /**
@@ -91,7 +108,6 @@ void setNodeRed(struct node *node) {
  *
  * TODO: Edit this comment to describe why this function runs in time O(n).
  */
-struct node *to_red_black_tree(int elems[], unsigned length) {
-    /* TODO: Implement this! */
-    return NULL;
+struct node * to_red_black_tree(int elems[], unsigned length) {
+    return to_red_black_tree_helper(elems, 0, length - 1);
 }
