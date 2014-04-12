@@ -33,8 +33,11 @@ static bool is_red_black_tree_helper(struct node * node, int * black_path, int b
     if (node == NULL) {
         if (*black_path == -1) {
             *black_path = black_path_count;
+            // printf("set value to be: %d\n", black_path_count);
             return true;
         } else {
+            // printf("about to compare: %d\n", black_path_count);
+
             return *black_path == black_path_count;
         }
     }
@@ -66,13 +69,12 @@ struct node * getRightChild(struct node * node) {
     return node->right;
 }
 
-void makeRightChild(struct node * root) {
+void setRightChild(struct node * root, struct node * child) {
+    root->right = child;
 }
 
-void makeLeft(struct node * root) {
-    struct node leftChild;
-    root->left = malloc(sizeof(leftChild));
-    root->left = &leftChild;
+void setLeftChild(struct node * root, struct node * child) {
+    root->left = (struct node*)((1 & (uintptr_t)root->left) | (uintptr_t)child);
 }
 
 bool isNodeRed(struct node * node) {
