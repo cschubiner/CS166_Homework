@@ -156,11 +156,16 @@ void correctColors(struct node * root) {
  * -------------------------------------------------------------------------
  * Given as input a sorted array of elements, returns a new red/black tree
  * containing the elements of that array.
+ * This function runs in O(n) time. The function first
+ * calls a helper function, which runs in O(n) time, as
+ *  each element in the array is visited only once to set
+ *   its position in the tree.
  *
- * This function runs in O(n) time because each element in the array is
- * visited only once. This is possible because finding where an element
- * is supposed to be placed and which color it's supposed to be is done
- * in constant time.
+ * Then, the function calls correctColors, which also runs
+ * in O(n) time, as it simply does an inorder traversal
+ * of the tree and runs a O(1) check to see if nodes need
+ * recoloring. If recoloring is needed, the recoloring
+ * is done in constant time as well.
  */
 struct node * to_red_black_tree(int elems[], unsigned length) {
     struct node * root = to_red_black_tree_helper(elems, 0, length - 1, NULL);
