@@ -99,6 +99,7 @@ struct node * to_red_black_tree_helper(int elems[], int low, int high, bool isPa
         root->left = to_red_black_tree_helper(elems, low, mid - 1, !isParentRed);
         root->right = to_red_black_tree_helper(elems, mid + 1, high, !isParentRed);
     }
+
     if (!isParentRed) {
         setNodeRed(root);
     }
@@ -112,7 +113,10 @@ struct node * to_red_black_tree_helper(int elems[], int low, int high, bool isPa
  * Given as input a sorted array of elements, returns a new red/black tree
  * containing the elements of that array.
  *
- * TODO: Edit this comment to describe why this function runs in time O(n).
+ * This function runs in O(n) time because each element in the array is
+ * visited only once. This is possible because finding where an element
+ * is supposed to be placed and which color it's supposed to be is done
+ * in constant time.
  */
 struct node * to_red_black_tree(int elems[], unsigned length) {
     return to_red_black_tree_helper(elems, 0, length - 1, true);
