@@ -28,7 +28,7 @@ void test1() {
     setRightChild(root, lStruct2);
 
     setNodeRed(lStruct2);
-    // setNodeRed(root->left);
+    setNodeRed(root->left);
 
 
     struct node * third1 = calloc(1, sizeof(struct node));
@@ -41,7 +41,7 @@ void test1() {
     setLeftChild(lStruct2, third3);
     setRightChild(lStruct2, third4);
 
-    setNodeRed(third1);
+    // setNodeRed(third1);
     setNodeRed(third2);
 
     printf("is_red_black_tree(root) %s\n", is_red_black_tree(root) ? "true" : "false");

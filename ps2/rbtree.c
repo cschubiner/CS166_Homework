@@ -17,7 +17,7 @@
  *    (though the left pointers may need to be tweaked a bit to get to
  *    valid data).
  *
- * This code runs in O(n) because every node in the tree is visited once
+ * This code runs in O(n), because every node in the tree is visited once
  * and during each vist, O(1) work is done on each node. A DFS search
  * through a tree with no cycles will at most visit each node only once.
  * In each cycle, I am checking whether the node is NULL and whether it is * a red node. These conditions can be checked in O(1).
