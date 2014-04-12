@@ -16,10 +16,7 @@ void printTree(struct node * n) {
 
 void test1() {
 
-    // struct node rootStruct;
-
     struct node * root = calloc(1, sizeof(struct node));
-    // setNodeRed(root);
     struct node * lStruct = calloc(1, sizeof(struct node));
 
     struct node * lStruct2 = calloc(1, sizeof(struct node));
@@ -78,7 +75,6 @@ void aTest1() {
     assert(root->key == 4);
 
     assert(is_red_black_tree(root));
-    // printTree(root); printf("\n");
     printf("finished atest1\n\n");
 
 }
@@ -94,7 +90,6 @@ void aTest2() {
 void aTest3() {
     int arr[] = {3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 14, 15, 17};
     struct node * root = to_red_black_tree(arr, 13);
-
     assert(is_red_black_tree(root));
     printf("finished atest3\n\n");
 
@@ -119,8 +114,6 @@ void aTest5() {
 void aTest6() {
     int arr[] = {3, 4, 5, 6};
     struct node * root = to_red_black_tree(arr, 4);
-    // printf("root %d %d\n", root->key, root->right->key);
-    // printTree(root);
     assert(is_red_black_tree(root));
     printf("finished atest6\n\n");
 }

@@ -35,10 +35,8 @@ static bool is_red_black_tree_helper(struct node * node, int * black_path, int b
     if (node == NULL) {
         if (*black_path == -1) {
             *black_path = black_path_count;
-            // printf("set value to be: %d\n", black_path_count);
             return true;
         } else {
-            // printf("about to compare: %d\n", black_path_count);
 
             return *black_path == black_path_count;
         }
@@ -117,7 +115,6 @@ struct node * to_red_black_tree_helper(int elems[], int low, int high, struct no
     root->parent = parent;
 
     setNodeRed(root);
-    // printf("%d \n", root->key);
 
     setLeftChild(root, to_red_black_tree_helper(elems, low, mid - 1, root));
     setRightChild(root, to_red_black_tree_helper(elems, mid + 1, high, root));
@@ -127,22 +124,13 @@ struct node * to_red_black_tree_helper(int elems[], int low, int high, struct no
 
 void correctColors(struct node * root) {
     if (!root) return;
-    // printf("%d \n", root->key);
     correctColors(getLeftChild(root));
 
     if (isNodeRed(root->parent)) {
-        // printf("root red. i am %d\n", root->key);
         if (root->parent->parent) {
-            // printf("parparroot red. i am %d\n", root->key);
             struct node * rightSib = getRightChild(root->parent->parent);
             struct node * leftSib = getLeftChild(root->parent->parent);
-            // printf("%d \n", root->parent->parent->key);
-            // printf("%d \n", root->parent->right);
-            // printf("%x - %x\n", leftSib, rightSib);
-            // printf("%d \n", leftSib->key);
-            // printf("%d \n", rightSib->key);
             if (isNodeRed(rightSib) && isNodeRed(leftSib)) {
-                // printf("parparlrroot red. i am %d\n", root->key);
                 setNodeBlack(leftSib);
                 setNodeBlack(rightSib);
             }
@@ -169,7 +157,6 @@ void correctColors(struct node * root) {
  */
 struct node * to_red_black_tree(int elems[], unsigned length) {
     struct node * root = to_red_black_tree_helper(elems, 0, length - 1, NULL);
-    // printf("correcting colors\n\n");
     correctColors(root);
     setNodeBlack(root);
     return root;
