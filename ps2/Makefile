@@ -1,3 +1,4 @@
+# Makefile modified from http://www.cs.colby.edu/maxwell/courses/tutorials/maketutor
 IDIR =.
 CC=gcc
 CFLAGS=-I$(IDIR) -Wall -std=c99

@@ -38,19 +38,9 @@ void test1() {
     setLeftChild(lStruct2, third3);
     setRightChild(lStruct2, third4);
 
-    // setNodeRed(third1);
     setNodeRed(third2);
 
     assert(!is_red_black_tree(root));
-
-    // free(root);
-    // free(lStruct);
-    // free(lStruct2);
-
-    // free(third1);
-    // free(third2);
-    // free(third3);
-    // free(third4);
 
 }
 
@@ -75,7 +65,7 @@ void aTest1() {
     assert(root->key == 4);
 
     assert(is_red_black_tree(root));
-    printf("finished atest1\n\n");
+    printf("finished atest1()\n");
 
 }
 
@@ -84,14 +74,14 @@ void aTest2() {
     struct node * root = to_red_black_tree(arr, 10);
     assert(root->key == 13);
     assert(is_red_black_tree(root));
-    printf("finished atest2\n\n");
+    printf("finished atest2()\n");
 }
 
 void aTest3() {
     int arr[] = {3, 4, 5, 6, 7, 8, 10, 11, 12, 13, 14, 15, 17};
     struct node * root = to_red_black_tree(arr, 13);
     assert(is_red_black_tree(root));
-    printf("finished atest3\n\n");
+    printf("finished atest3()\n");
 
 }
 
@@ -99,7 +89,7 @@ void aTest4() {
     int arr[] = {3};
     struct node * root = to_red_black_tree(arr, 1);
     assert(is_red_black_tree(root));
-    printf("finished atest4\n\n");
+    printf("finished atest4()\n");
 }
 
 void aTest5() {
@@ -108,16 +98,30 @@ void aTest5() {
     assert(is_red_black_tree(root));
     setNodeRed(root);
     assert(!is_red_black_tree(root));
-    printf("finished atest5\n\n");
+    printf("finished atest5()\n");
 }
 
 void aTest6() {
     int arr[] = {3, 4, 5, 6};
     struct node * root = to_red_black_tree(arr, 4);
     assert(is_red_black_tree(root));
-    printf("finished atest6\n\n");
+    printf("finished atest6()\n");
 }
 
+void aTestRandom() {
+    for (int j = 0; j < 3; j++) {
+        int randLen = rand() % 100 + 100;
+        int arr[randLen];
+
+        for (int i = 0; i < randLen; ++i) {
+            arr[i] = rand() % randLen + 1;
+        }
+
+        struct node * root = to_red_black_tree(arr, randLen);
+        assert(is_red_black_tree(root));
+    }
+    printf("finished aTestRandom()\n");
+}
 
 int main() {
     test1();
@@ -128,7 +132,5 @@ int main() {
     aTest4();
     aTest5();
     aTest6();
-
-    printf("finished all tests");
+    aTestRandom();
 }
-
