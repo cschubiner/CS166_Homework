@@ -43,7 +43,6 @@ static bool is_red_black_tree_helper(struct node * node, int * black_path, int b
         }
     }
     struct node * left = getLeftChild(node);
-
     struct node * right = getRightChild(node);
 
     if (isNodeRed(node)) {
@@ -71,12 +70,10 @@ struct node * getRightChild(struct node * node) {
 }
 
 void setRightChild(struct node * root, struct node * child) {
-    // if (child) printf("setting %d's right child to %d\n", root->key, child->key);
     root->right = child;
 }
 
 void setLeftChild(struct node * root, struct node * child) {
-    // if (child) printf("setting %d's left child to %d\n", root->key, child->key);
     root->left = (struct node *)((1 & (uintptr_t)root->left) | (uintptr_t)child);
 }
 
@@ -110,13 +107,11 @@ struct node * to_red_black_tree_helper(int elems[], int low, int high, struct no
         return NULL;
 
     int mid = low + (high - low) / 2;
-
     struct node * root = malloc(sizeof(struct node));
     root->key = elems[mid];
     root->parent = parent;
 
     setNodeRed(root);
-
     setLeftChild(root, to_red_black_tree_helper(elems, low, mid - 1, root));
     setRightChild(root, to_red_black_tree_helper(elems, mid + 1, high, root));
 
@@ -126,7 +121,6 @@ struct node * to_red_black_tree_helper(int elems[], int low, int high, struct no
 void correctColors(struct node * root) {
     if (!root) return;
     correctColors(getLeftChild(root));
-
     if (isNodeRed(root->parent)) {
         if (root->parent->parent) {
             struct node * rightSib = getRightChild(root->parent->parent);

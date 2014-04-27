@@ -17,3 +17,5 @@ ps1/.idea/uiDesigner.xml
 *.o
 
 ps2/test
+
+ps2/test.c
