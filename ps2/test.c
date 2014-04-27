@@ -43,14 +43,15 @@ void test1() {
 
     assert(!is_red_black_tree(root));
 
-    // free(root);
-    // free(lStruct);
-    // free(lStruct2);
+    free(third1);
+    free(third2);
+    free(third3);
+    free(third4);
 
-    // free(third1);
-    // free(third2);
-    // free(third3);
-    // free(third4);
+    free(lStruct);
+    free(lStruct2);
+
+    free(root);
 
 }
 
@@ -121,14 +122,14 @@ void aTest6() {
 
 int main() {
     test1();
-    test2();
-    aTest1();
-    aTest2();
-    aTest3();
-    aTest4();
-    aTest5();
-    aTest6();
+    // test2();
+    // aTest1();
+    // aTest2();
+    // aTest3();
+    // aTest4();
+    // aTest5();
+    // aTest6();
 
-    printf("finished all tests");
+    printf("finished all tests\n");
 }
 
