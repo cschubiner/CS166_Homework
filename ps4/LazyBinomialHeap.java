@@ -42,7 +42,7 @@ public class LazyBinomialHeap {
 	 * @return The minimum key in the priority queue.
 	 */
 	public int min() {
-		/* To enable insertions during testing, run java with the -ea flag:
+		/* To enable assertions during testing, run java with the -ea flag:
 		 *
 		 *    java -ea NameOfMainClass
 		 */
