@@ -13,7 +13,7 @@ public class Main {
 
     @Test
     public void testEasy() {
-    LazyBinomialHeap lbh = new LazyBinomialHeap();
+        LazyBinomialHeap lbh = new LazyBinomialHeap();
         lbh.enqueue(2);
         assertEquals(2, lbh.min()); //we want 2
     }
