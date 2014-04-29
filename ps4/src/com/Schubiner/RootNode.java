@@ -3,13 +3,13 @@ package com.Schubiner;
 /**
  * Created by clayschubiner on 4/28/14.
  */
-public class Node {
+public class RootNode {
     public Object val;
-    public Node next;
-    public Node prev;
+    public RootNode next;
+    public RootNode prev;
     public int order;
 
-    public Node(Object val) {
+    public RootNode(Object val) {
         this.val = val;
     }
 }

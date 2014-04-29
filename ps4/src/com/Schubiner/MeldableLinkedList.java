@@ -9,21 +9,33 @@ import java.util.NoSuchElementException;
  * stone toward building the LazyBinomialHeap.
  */
 public class MeldableLinkedList {
-    public Node getHead() {
+    private RootNode head, tail;
+
+    public RootNode getHead() {
         return head;
     }
 
-    public Node getTail() {
+    public RootNode getTail() {
         return tail;
     }
 
-    private Node head, tail;
-    private int size;
-
-    public void deleteNode(Node node) {
-        Node prevNode = node.prev;
-        prevNode.next = node.next;
-        node.next.prev = prevNode;
+    public void deleteNode(RootNode node) {
+        if (node == head) {
+            head = node.next;
+            if (head != null)
+                head.prev = null;
+            return;
+        }
+        else if (node == tail) {
+            tail = node.prev;
+            tail.next = null;
+            return;
+        }
+        else {
+            RootNode prevNode = node.prev;
+            prevNode.next = node.next;
+            node.next.prev = prevNode;
+        }
 
         node.next = null;
         node.prev = null;
@@ -36,34 +48,46 @@ public class MeldableLinkedList {
     public void concatWithList(MeldableLinkedList two) {
         this.tail.next = two.head;
         two.head.prev = this.tail;
+        this.tail = two.tail;
     }
 
     public boolean isEmpty() {
-        return this.head != null;
+        return this.head == null;
     }
 
-    public void insertAfterNode(Node beforeNode, Node newNode) {
+    public void insertAfterNode(RootNode beforeNode, RootNode newNode) {
+        if (beforeNode == tail) {
+            newNode.prev = this.tail;
+            this.tail.next = newNode;
+            this.tail = newNode;
+            return;
+        }
 
+        RootNode oldNext = beforeNode.next;
+        beforeNode.next = newNode;
+        newNode.next = oldNext;
+        oldNext.prev = newNode;
+        newNode.prev = beforeNode;
     }
 
-    public void insertNodeAtEnd(Node newNode) {
+    public void insertNodeAtEnd(RootNode newNode) {
         if (this.head == null) {
             this.head = newNode;
             this.tail = newNode;
         } else {
-            this.tail.next = newNode;
             newNode.prev = this.tail;
+            this.tail.next = newNode;
             this.tail = newNode;
         }
     }
 
-    public Iterator<Node> iterator()
+    public Iterator<RootNode> iterator()
     {
         return new LinkedListIterator();
     }
 
-    private class LinkedListIterator implements Iterator<Node> {
-        private Node nextNode;
+    private class LinkedListIterator implements Iterator<RootNode> {
+        private RootNode nextNode;
 
         public LinkedListIterator()
         {
@@ -72,19 +96,20 @@ public class MeldableLinkedList {
 
         @Override
         public boolean hasNext() {
-            return nextNode.next != null;
+            return nextNode != null;
         }
 
         @Override
-        public Node next() {
+        public RootNode next() {
             if(!hasNext()) throw new NoSuchElementException();
+            RootNode ret = nextNode;
             nextNode = nextNode.next;
-            return nextNode;
+            return ret;
         }
 
         @Override
         public void remove() {
-            deleteNode(nextNode);
+            deleteNode(nextNode.prev);
         }
     }
 }

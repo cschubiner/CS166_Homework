@@ -12,16 +12,6 @@ package com.Schubiner;
 public class LazyBinomialHeap {
     MeldableLinkedList rootList;
 
-    public class TreeNode extends Node{
-        public int order;
-        public TreeNode left;
-        public TreeNode right;
-
-        public TreeNode(Object val) {
-            super(val);
-        }
-    }
-
     /**
      * Constructs a new, empty LazyBinomialHeap.
      * Create the root doubly linked list
