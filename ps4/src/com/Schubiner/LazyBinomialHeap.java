@@ -11,6 +11,7 @@ package com.Schubiner;
  */
 public class LazyBinomialHeap {
     MeldableLinkedList rootList;
+    RootNode minRootNode;
 
     /**
      * Constructs a new, empty LazyBinomialHeap.
@@ -18,11 +19,13 @@ public class LazyBinomialHeap {
      */
     public LazyBinomialHeap() {
         rootList = new MeldableLinkedList();
+        minRootNode = null;
     }
 
     /**
      * Returns whether the lazy binomial heap is empty.
      * Simply checks if linkedlist is empty
+     *
      * @return Whether this lazy binomial heap is empty.
      */
     public boolean isEmpty() {
@@ -33,35 +36,40 @@ public class LazyBinomialHeap {
      * Adds the specified key to the priority queue. Duplicate values are
      * allowed.
      * Make a new node and insert into linked list
+     *
      * @param key The key to add.
      */
     public void enqueue(int key) {
-        // TODO: Fill this in!
+        TreeNode tn = new TreeNode(key);
+        RootNode rn = new RootNode(tn);
+        if (minRootNode == null || key < minRootNode.treeNode.key)
+            minRootNode = rn;
+
+        rootList.insertNodeAtEnd(rn);
     }
 
     /**
      * Returns the minimum key in the priority queue. This method can assume
      * that the priority queue is not empty.
-     *
+     * <p/>
      * We keep track of the minimum node in our root linked list. Return it
      *
      * @return The minimum key in the priority queue.
      */
     public int min() {
         /* To enable assertions during testing, run java with the -ea flag:
-		 *
+         *
 		 *    java -ea NameOfMainClass
 		 */
         assert !isEmpty() : "Priority queue is empty!";
 
-        // TODO: Implement this!
-        return 0;
+        return minRootNode.treeNode.key;
     }
 
     /**
      * Removes and returns the minimum element of the priority queue. This
      * method can assume that the priority queue is nonempty.
-     *
+     * <p/>
      * Create a new root linkedlist
      * Iterate over the old root linkedlist, adding it with the new root
      * linked list as we go. Set new root linkedlist as this.root
@@ -87,7 +95,10 @@ public class LazyBinomialHeap {
      */
     public static LazyBinomialHeap meld(LazyBinomialHeap one,
                                         LazyBinomialHeap two) {
-        // TODO: Implement this!
-        return null;
+        LazyBinomialHeap ret = new LazyBinomialHeap();
+        one.rootList.concatWithList(two.rootList);
+        ret.minRootNode = one.minRootNode.treeNode.key <= two.minRootNode.treeNode.key ? one.minRootNode : two.minRootNode;
+        ret.rootList = one.rootList;
+        return ret;
     }
 }

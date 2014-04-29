@@ -25,13 +25,11 @@ public class MeldableLinkedList {
             if (head != null)
                 head.prev = null;
             return;
-        }
-        else if (node == tail) {
+        } else if (node == tail) {
             tail = node.prev;
             tail.next = null;
             return;
-        }
-        else {
+        } else {
             RootNode prevNode = node.prev;
             prevNode.next = node.next;
             node.next.prev = prevNode;
@@ -81,16 +79,14 @@ public class MeldableLinkedList {
         }
     }
 
-    public Iterator<RootNode> iterator()
-    {
+    public Iterator<RootNode> iterator() {
         return new LinkedListIterator();
     }
 
     private class LinkedListIterator implements Iterator<RootNode> {
         private RootNode nextNode;
 
-        public LinkedListIterator()
-        {
+        public LinkedListIterator() {
             nextNode = head;
         }
 
@@ -101,7 +97,7 @@ public class MeldableLinkedList {
 
         @Override
         public RootNode next() {
-            if(!hasNext()) throw new NoSuchElementException();
+            if (!hasNext()) throw new NoSuchElementException();
             RootNode ret = nextNode;
             nextNode = nextNode.next;
             return ret;
