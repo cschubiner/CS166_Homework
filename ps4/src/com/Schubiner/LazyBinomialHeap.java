@@ -10,6 +10,8 @@ package com.Schubiner;
  * this priority queue.
  */
 public class LazyBinomialHeap {
+    MeldableLinkedList rootList;
+
     public class TreeNode extends Node{
         public int order;
         public TreeNode left;
@@ -25,7 +27,7 @@ public class LazyBinomialHeap {
      * Create the root doubly linked list
      */
     public LazyBinomialHeap() {
-        // TODO: Fill this in!
+        rootList = new MeldableLinkedList();
     }
 
     /**
@@ -34,8 +36,7 @@ public class LazyBinomialHeap {
      * @return Whether this lazy binomial heap is empty.
      */
     public boolean isEmpty() {
-        // TODO: Fill this in!
-        return false;
+        return rootList.isEmpty();
     }
 
     /**

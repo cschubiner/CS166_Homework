@@ -21,17 +21,21 @@ public class MeldableLinkedList {
     private int size;
 
     public void deleteNode(Node node) {
+        Node prevNode = node.prev;
+        prevNode.next = node.next;
+        node.next.prev = prevNode;
 
-    }
-
-    public static Node createNode(Object val) {
-        return new Node(val);
+        node.next = null;
+        node.prev = null;
     }
 
     /* We support O(1) concatenation :)
+     * The MeldableLinkedList this is called on will now be merged with "two"
+     * "two" will now be unusable.
      */
     public void concatWithList(MeldableLinkedList two) {
-
+        this.tail.next = two.head;
+        two.head.prev = this.tail;
     }
 
     public boolean isEmpty() {
@@ -48,6 +52,7 @@ public class MeldableLinkedList {
             this.tail = newNode;
         } else {
             this.tail.next = newNode;
+            newNode.prev = this.tail;
             this.tail = newNode;
         }
     }
