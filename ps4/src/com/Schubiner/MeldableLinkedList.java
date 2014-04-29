@@ -1,10 +1,88 @@
 package com.Schubiner;
 
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 /**
  * A doubly-linked list that supports O(1) concatenation. You are not required
  * to implement this class, but we strongly recommend doing so as a stepping
  * stone toward building the LazyBinomialHeap.
  */
 public class MeldableLinkedList {
-    // TODO: Implement this class as you see fit!
+    public Node getHead() {
+        return head;
+    }
+
+    public Node getTail() {
+        return tail;
+    }
+
+    private Node head, tail;
+    private int size;
+
+    public class Node {
+        public Object val;
+        public Node next;
+        public Node prev;
+        public int order;
+
+        public Node(Object val) {
+            this.val = val;
+        }
+    }
+
+    public void deleteNode(Node node) {
+
+    }
+
+
+    public boolean isEmpty() {
+        return this.head != null;
+    }
+
+    public void insertAfterNode(Node beforeNode, Node newNode) {
+
+    }
+
+    public void insertNodeAtEnd(Node newNode) {
+        if (this.head == null) {
+            this.head = newNode;
+            this.tail = newNode;
+        } else {
+            this.tail.next = newNode;
+            this.tail = newNode;
+        }
+    }
+
+    public Iterator<Node> iterator()
+    {
+        return new LinkedListIterator();
+    }
+
+    private class LinkedListIterator implements Iterator<Node> {
+        private Node nextNode;
+
+        public LinkedListIterator()
+        {
+            nextNode = head;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return nextNode.next != null;
+        }
+
+        @Override
+        public Node next() {
+            if(!hasNext()) throw new NoSuchElementException();
+            nextNode = nextNode.next;
+            return nextNode;
+        }
+
+        @Override
+        public void remove() {
+            deleteNode(nextNode);
+        }
+    }
 }
+
