@@ -10,8 +10,15 @@ package com.Schubiner;
  * this priority queue.
  */
 public class LazyBinomialHeap {
+    public class TreeNode {
+        public int order;
+        public TreeNode left;
+        public TreeNode right;
+    }
+
     /**
      * Constructs a new, empty LazyBinomialHeap.
+     * Create the root doubly linked list
      */
     public LazyBinomialHeap() {
         // TODO: Fill this in!
@@ -19,7 +26,7 @@ public class LazyBinomialHeap {
 
     /**
      * Returns whether the lazy binomial heap is empty.
-     *
+     * Simply checks if linkedlist is empty
      * @return Whether this lazy binomial heap is empty.
      */
     public boolean isEmpty() {
@@ -30,7 +37,7 @@ public class LazyBinomialHeap {
     /**
      * Adds the specified key to the priority queue. Duplicate values are
      * allowed.
-     *
+     * Make a new node and insert into linked list
      * @param key The key to add.
      */
     public void enqueue(int key) {
@@ -40,6 +47,8 @@ public class LazyBinomialHeap {
     /**
      * Returns the minimum key in the priority queue. This method can assume
      * that the priority queue is not empty.
+     *
+     * We keep track of the minimum node in our root linked list. Return it
      *
      * @return The minimum key in the priority queue.
      */
@@ -57,6 +66,10 @@ public class LazyBinomialHeap {
     /**
      * Removes and returns the minimum element of the priority queue. This
      * method can assume that the priority queue is nonempty.
+     *
+     * Create a new root linkedlist
+     * Iterate over the old root linkedlist, adding it with the new root
+     * linked list as we go. Set new root linkedlist as this.root
      *
      * @return The formed minimum element of the priority queue.
      */
