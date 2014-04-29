@@ -126,6 +126,7 @@ public class Main {
         lbh3.enqueue(-10);
         lbh3.enqueue(-8);
         m = LazyBinomialHeap.meld(m, lbh3);
+
         assertEquals(-10, m.extractMin());
         assertEquals(-8, m.extractMin());
         assertEquals(-7, m.extractMin());
@@ -137,24 +138,6 @@ public class Main {
         assertEquals(9, m.extractMin());
         assertTrue(m.isEmpty());
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     // Linked list tests ----------------------------------------------

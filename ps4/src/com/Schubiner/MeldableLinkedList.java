@@ -24,11 +24,9 @@ public class MeldableLinkedList {
             head = node.next;
             if (head != null)
                 head.prev = null;
-            return;
         } else if (node == tail) {
             tail = node.prev;
             tail.next = null;
-            return;
         } else {
             RootNode prevNode = node.prev;
             prevNode.next = node.next;
@@ -68,6 +66,20 @@ public class MeldableLinkedList {
         newNode.prev = beforeNode;
     }
 
+//    public void printList() {
+//        Iterator<RootNode> it = this.iterator();
+//        while(it.hasNext()) {
+//            TreeNode comp = it.next().treeNode;
+//            System.out.println(comp.key);
+//            System.out.println("children: ");
+//            TreeNode children = comp.left;
+//            while(children!= null){
+//                System.out.println(children.key);
+//                children= children.right;
+//            }
+//        }
+//    }
+
     public void insertNodeAtEnd(RootNode newNode) {
         if (this.head == null) {
             this.head = newNode;
@@ -84,6 +96,7 @@ public class MeldableLinkedList {
     }
 
     private class LinkedListIterator implements Iterator<RootNode> {
+        private RootNode curr;
         private RootNode nextNode;
 
         public LinkedListIterator() {
@@ -99,13 +112,14 @@ public class MeldableLinkedList {
         public RootNode next() {
             if (!hasNext()) throw new NoSuchElementException();
             RootNode ret = nextNode;
+            curr = nextNode;
             nextNode = nextNode.next;
             return ret;
         }
 
         @Override
         public void remove() {
-            deleteNode(nextNode.prev);
+            deleteNode(curr);
         }
     }
 }
