@@ -20,21 +20,19 @@ public class MeldableLinkedList {
     private Node head, tail;
     private int size;
 
-    public class Node {
-        public Object val;
-        public Node next;
-        public Node prev;
-        public int order;
-
-        public Node(Object val) {
-            this.val = val;
-        }
-    }
-
     public void deleteNode(Node node) {
 
     }
 
+    public static Node createNode(Object val) {
+        return new Node(val);
+    }
+
+    /* We support O(1) concatenation :)
+     */
+    public void concatWithList(MeldableLinkedList two) {
+
+    }
 
     public boolean isEmpty() {
         return this.head != null;

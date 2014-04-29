@@ -10,10 +10,14 @@ package com.Schubiner;
  * this priority queue.
  */
 public class LazyBinomialHeap {
-    public class TreeNode {
+    public class TreeNode extends Node{
         public int order;
         public TreeNode left;
         public TreeNode right;
+
+        public TreeNode(Object val) {
+            super(val);
+        }
     }
 
     /**
