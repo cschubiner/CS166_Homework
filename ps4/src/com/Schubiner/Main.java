@@ -3,7 +3,6 @@ package com.Schubiner;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 
@@ -150,13 +149,13 @@ public class Main {
         int max = 1000000;
         int testSize = 1000000;
         for (int i = 0; i < testSize; i++) {
-            int randInt = min + (int)(Math.random() * ((max - min) + 1));
+            int randInt = min + (int) (Math.random() * ((max - min) + 1));
             arrayList.add(randInt);
             lbh.enqueue(randInt);
         }
         Collections.sort(arrayList);
         for (int i = 0; i < testSize; i++)
-            assertEquals((int)arrayList.get(i), lbh.extractMin());
+            assertEquals((int) arrayList.get(i), lbh.extractMin());
         assertTrue(lbh.isEmpty());
     }
 

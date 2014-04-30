@@ -2,6 +2,7 @@ package com.Schubiner;
 
 import java.util.HashMap;
 import java.util.Iterator;
+
 /**
  * An implementation of a priority queue backed by a lazy binomial heap. Each
  * binomial tree in this heap should be represented using the left-child/right-
@@ -13,7 +14,7 @@ import java.util.Iterator;
  */
 public class LazyBinomialHeap {
     public MeldableLinkedList rootList;
-    public RootNode minRootNode;
+    private RootNode minRootNode;
 
     /**
      * Constructs a new, empty LazyBinomialHeap.
@@ -22,6 +23,25 @@ public class LazyBinomialHeap {
     public LazyBinomialHeap() {
         rootList = new MeldableLinkedList();
         minRootNode = null;
+    }
+
+    /**
+     * Melds together the two input priority queues into a single priority
+     * queue. After this method is called on two priority queues, both of the
+     * input queues should not be used again in the future and any operations
+     * performed on them will have unspecified behavior.
+     *
+     * @param one The first queue to meld.
+     * @param two The second queue to meld.
+     * @return A queue consisting of all the keys in both input queues.
+     */
+    public static LazyBinomialHeap meld(LazyBinomialHeap one,
+                                        LazyBinomialHeap two) {
+        LazyBinomialHeap ret = new LazyBinomialHeap();
+        one.rootList.concatWithList(two.rootList);
+        ret.minRootNode = one.minRootNode.treeNode.key <= two.minRootNode.treeNode.key ? one.minRootNode : two.minRootNode;
+        ret.rootList = one.rootList;
+        return ret;
     }
 
     /**
@@ -65,7 +85,6 @@ public class LazyBinomialHeap {
 		 *    java -ea NameOfMainClass
 		 */
         assert !isEmpty() : "Priority queue is empty!";
-
         return minRootNode.treeNode.key;
     }
 
@@ -73,7 +92,7 @@ public class LazyBinomialHeap {
         rootList.deleteNode(minRootNode);
         TreeNode min = minRootNode.treeNode;
         TreeNode child = min.left;
-        while(child!=null) {
+        while (child != null) {
             TreeNode next = child.right;
             child.right = null;
             RootNode toBeInserted = new RootNode(child);
@@ -88,16 +107,17 @@ public class LazyBinomialHeap {
         Iterator<RootNode> it = rootList.iterator();
         int min_value = Integer.MAX_VALUE;
         RootNode min = null;
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             RootNode curr = it.next();
             TreeNode comp = curr.treeNode;
-            if(comp.key < min_value) {
+            if (comp.key < min_value) {
                 min_value = comp.key;
                 min = curr;
             }
         }
         minRootNode = min;
     }
+
     /**
      * Removes and returns the minimum element of the priority queue. This
      * method can assume that the priority queue is nonempty.
@@ -118,12 +138,12 @@ public class LazyBinomialHeap {
         Iterator<RootNode> it = rootList.iterator();
 
         HashMap<Integer, RootNode> available_trees = new HashMap<Integer, RootNode>();
-        while(it.hasNext()) {
+        while (it.hasNext()) {
             RootNode to_be_added = it.next();
             it.remove();
             int order = to_be_added.order;
 
-            while(available_trees.containsKey(order)) {
+            while (available_trees.containsKey(order)) {
                 RootNode same_order_node = available_trees.get(order);
                 compacted_list.deleteNode(same_order_node);
                 available_trees.remove(order);
@@ -142,13 +162,13 @@ public class LazyBinomialHeap {
     }
 
     public RootNode combine(RootNode a, RootNode b) {
-        if(a.order != b.order) return null; //error right here
+        if (a.order != b.order) return null; //error right here
 
         TreeNode first = a.treeNode;
         TreeNode second = b.treeNode;
         TreeNode parent, child;
         RootNode to_be_returned;
-        if(first.key < second.key) {
+        if (first.key < second.key) {
             to_be_returned = a;
             parent = first;
             child = second;
@@ -161,25 +181,7 @@ public class LazyBinomialHeap {
         child.right = parent.left;
         parent.left = child;
         parent.order = parent.order + 1;
-        to_be_returned.order = to_be_returned.order +1;
+        to_be_returned.order = to_be_returned.order + 1;
         return to_be_returned;
-    }
-    /**
-     * Melds together the two input priority queues into a single priority
-     * queue. After this method is called on two priority queues, both of the
-     * input queues should not be used again in the future and any operations
-     * performed on them will have unspecified behavior.
-     *
-     * @param one The first queue to meld.
-     * @param two The second queue to meld.
-     * @return A queue consisting of all the keys in both input queues.
-     */
-    public static LazyBinomialHeap meld(LazyBinomialHeap one,
-                                        LazyBinomialHeap two) {
-        LazyBinomialHeap ret = new LazyBinomialHeap();
-        one.rootList.concatWithList(two.rootList);
-        ret.minRootNode = one.minRootNode.treeNode.key <= two.minRootNode.treeNode.key ? one.minRootNode : two.minRootNode;
-        ret.rootList = one.rootList;
-        return ret;
     }
 }

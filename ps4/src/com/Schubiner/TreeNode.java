@@ -5,7 +5,7 @@ package com.Schubiner;
  */
 public class TreeNode {
     public int order;
-    public int key;
+    public final int key;
     public TreeNode left;
     public TreeNode right;
 

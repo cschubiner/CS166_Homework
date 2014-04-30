@@ -66,20 +66,6 @@ public class MeldableLinkedList {
         newNode.prev = beforeNode;
     }
 
-//    public void printList() {
-//        Iterator<RootNode> it = this.iterator();
-//        while(it.hasNext()) {
-//            TreeNode comp = it.next().treeNode;
-//            System.out.println(comp.key);
-//            System.out.println("children: ");
-//            TreeNode children = comp.left;
-//            while(children!= null){
-//                System.out.println(children.key);
-//                children= children.right;
-//            }
-//        }
-//    }
-
     public void insertNodeAtEnd(RootNode newNode) {
         if (this.head == null) {
             this.head = newNode;
