@@ -2,6 +2,9 @@ package com.Schubiner;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 
 import static org.junit.Assert.*;
@@ -139,6 +142,23 @@ public class Main {
         assertTrue(m.isEmpty());
     }
 
+    @Test
+    public void testHuge() {
+        LazyBinomialHeap lbh = new LazyBinomialHeap();
+        ArrayList<Integer> arrayList = new ArrayList<Integer>();
+        int min = -1000000;
+        int max = 1000000;
+        int testSize = 1000000;
+        for (int i = 0; i < testSize; i++) {
+            int randInt = min + (int)(Math.random() * ((max - min) + 1));
+            arrayList.add(randInt);
+            lbh.enqueue(randInt);
+        }
+        Collections.sort(arrayList);
+        for (int i = 0; i < testSize; i++)
+            assertEquals((int)arrayList.get(i), lbh.extractMin());
+        assertTrue(lbh.isEmpty());
+    }
 
     // Linked list tests ----------------------------------------------
     @Test
