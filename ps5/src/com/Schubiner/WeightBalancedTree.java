@@ -1,3 +1,4 @@
+package com.Schubiner;
 /**
  * An implementation of a static BST backed by a weight-balanced tree.
  */

@@ -1,3 +1,4 @@
+package com.Schubiner;
 /******************************************************************************
  * An implementation of the alias method implemented using Vose's algorithm.
  * The alias method allows for efficient sampling of random values from a

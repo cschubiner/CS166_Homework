@@ -1,3 +1,4 @@
+package com.Schubiner;
 /**
  * An implementation of a BST backed by a splay tree.
  */

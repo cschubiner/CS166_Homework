@@ -1,3 +1,4 @@
+package com.Schubiner;
 /**
  * An interface representing a static binary search tree over the keys 0, ..., n - 1.
  * 
