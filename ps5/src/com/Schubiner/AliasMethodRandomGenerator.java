@@ -8,7 +8,11 @@ package com.Schubiner;
  * For a complete writeup on the alias method, including the intuition and
  * important proofs, check out http://www.keithschwarz.com/darts-dice-coins/
  */
-import java.util.*;
+
+import java.util.ArrayDeque;
+import java.util.Arrays;
+import java.util.Deque;
+import java.util.Random;
 
 public final class AliasMethodRandomGenerator {
     /* The random number generator used to sample from the distribution. */
@@ -21,7 +25,7 @@ public final class AliasMethodRandomGenerator {
     /**
      * Constructs a new AliasMethod to sample from a discrete distribution and
      * hand back outcomes based on the probability distribution.
-     * <p>
+     * <p/>
      * Given as input a list of probabilities corresponding to outcomes 0, 1,
      * ..., n - 1, this constructor creates the probability and alias tables
      * needed to efficiently sample from this distribution.
@@ -35,14 +39,14 @@ public final class AliasMethodRandomGenerator {
     /**
      * Constructs a new AliasMethod to sample from a discrete distribution and
      * hand back outcomes based on the probability distribution.
-     * <p>
+     * <p/>
      * Given as input a list of probabilities corresponding to outcomes 0, 1,
      * ..., n - 1, along with the random number generator that should be used
-     * as the underlying generator, this constructor creates the probability 
+     * as the underlying generator, this constructor creates the probability
      * and alias tables needed to efficiently sample from this distribution.
      *
      * @param probabilities The list of probabilities.
-     * @param random The random number generator
+     * @param random        The random number generator
      */
     public AliasMethodRandomGenerator(double[] probabilities, Random random) {
         /* Begin by doing basic structural checks on the inputs. */
@@ -136,6 +140,6 @@ public final class AliasMethodRandomGenerator {
         boolean coinToss = random.nextDouble() < probability[column];
 
         /* Based on the outcome, return either the column or its alias. */
-        return coinToss? column : alias[column];
+        return coinToss ? column : alias[column];
     }
 }

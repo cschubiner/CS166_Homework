@@ -1,26 +1,27 @@
 package com.Schubiner;
 
-import java.util.*;
+import java.util.ArrayList;
 
 /**
  * An implementation of a static BST backed by a weight-balanced tree.
  */
 public class WeightBalancedTree implements BST {
     Node root;
-	/**
-	 * Constructs a new tree from the specified array of weights. The array entry
-	 * at position 0 specifies the weight of 0, the entry at position 1 specifies
-	 * the weight of 1, etc.
-	 *
-	 * @param elements - weights on the elements.
-	 */
-	public WeightBalancedTree(double[] elements) {
+
+    /**
+     * Constructs a new tree from the specified array of weights. The array entry
+     * at position 0 specifies the weight of 0, the entry at position 1 specifies
+     * the weight of 1, etc.
+     *
+     * @param elements - weights on the elements.
+     */
+    public WeightBalancedTree(double[] elements) {
         ArrayList<SmallNode> smallNodeElements = new ArrayList<SmallNode>(elements.length);
         for (int i = 0; i < elements.length; i++)
             smallNodeElements.add(new SmallNode(i, elements[i]));
 
         this.root = makeWBT(smallNodeElements, 0, elements.length - 1);
-	}
+    }
 
     private Node makeWBT(ArrayList<SmallNode> elements, int low, int high) {
         if (low > high)
@@ -39,8 +40,7 @@ public class WeightBalancedTree implements BST {
                 lowIndex += 1;
                 lowSum = valLow;
                 oldWasLow = true;
-            }
-            else {
+            } else {
                 highIndex -= 1;
                 highSum = valHigh;
                 oldWasLow = false;
@@ -51,7 +51,7 @@ public class WeightBalancedTree implements BST {
                 rootIndex = oldWasLow ? lowIndex - 1 : highIndex + 1;
                 break;
             }
-            oldDiff=diff;
+            oldDiff = diff;
         }
 
         Node root = new Node(elements.get(rootIndex).key, elements.get(rootIndex).weight);
@@ -60,15 +60,14 @@ public class WeightBalancedTree implements BST {
 
         return root;
     }
-	
-	/**
+
+    /**
+     * Returns whether the specified key is in the BST.
      *
-	 * Returns whether the specified key is in the BST.
-	 *
-	 * @param key The key to test.
-	 * @return Whether it's in the BST.
-	 */
-	public boolean contains(int key) {
+     * @param key The key to test.
+     * @return Whether it's in the BST.
+     */
+    public boolean contains(int key) {
         Node root = this.root;
         while (root != null) {
             if (root.key == key)
@@ -78,10 +77,10 @@ public class WeightBalancedTree implements BST {
             else root = root.left;
         }
 
-		return false;
-	}
+        return false;
+    }
 
-    private class SmallNode implements Comparable<SmallNode>{
+    private class SmallNode implements Comparable<SmallNode> {
         int key;
         double weight;
 
@@ -91,7 +90,8 @@ public class WeightBalancedTree implements BST {
             this.weight = weight;
         }
 
-        private SmallNode() { }
+        private SmallNode() {
+        }
 
         @Override
         public int compareTo(SmallNode o) {
@@ -99,7 +99,7 @@ public class WeightBalancedTree implements BST {
         }
     }
 
-    private class Node extends SmallNode{
+    private class Node extends SmallNode {
         Node left;
         Node right;
 

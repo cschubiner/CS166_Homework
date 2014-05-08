@@ -5,9 +5,9 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Iterator;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class Main {
 
@@ -31,16 +31,16 @@ public class Main {
         for (int i = 0; i < testMax; i++) {
             a.add(i);
         }
-        Object[] array =  a.toArray();
+        Object[] array = a.toArray();
 
         Collections.shuffle(Arrays.asList(array));
         SplayTree wbt = new SplayTree();
         for (int i = 0; i < testMax; i++) {
-            wbt.insert((Integer)array[i]);
+            wbt.insert((Integer) array[i]);
         }
 
         for (int i = 0; i < testMax; i++) {
-            assertTrue(wbt.contains((Integer)array[i]));
+            assertTrue(wbt.contains((Integer) array[i]));
         }
     }
 

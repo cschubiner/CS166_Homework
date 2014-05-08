@@ -1,25 +1,27 @@
 package com.Schubiner;
+
 /**
  * An implementation of a BST backed by a splay tree.
  */
 public class SplayTree implements BST {
     private Node root;
 
-	/**
-	 * Constructs a new tree from the specified array of weights. Since splay
-	 * trees don't care about access probabilities, you should only need
-	 * to read the length of the weights array and not the weights themselves.
-	 * This tree should store the values 0, 1, 2, ..., n - 1, where n is the length
-	 * of the input array.
-	 *
-	 * @param weights - the weights on the elements.
-	 */
-	public SplayTree(double[] weights) {
+    /**
+     * Constructs a new tree from the specified array of weights. Since splay
+     * trees don't care about access probabilities, you should only need
+     * to read the length of the weights array and not the weights themselves.
+     * This tree should store the values 0, 1, 2, ..., n - 1, where n is the length
+     * of the input array.
+     *
+     * @param weights - the weights on the elements.
+     */
+    public SplayTree(double[] weights) {
         for (int i = 0; i < weights.length; i++) {
             insert(i);
         }
-	}
+    }
 
+    // for testing only
     public SplayTree() { }
 
     private void bstInsert(Node n) {
@@ -66,8 +68,7 @@ public class SplayTree implements BST {
                 x.right = p;
                 p.left = b;
                 p.right = c;
-            }
-            else {
+            } else {
                 a = x.right;
                 b = x.left;
                 c = p.left;
@@ -87,15 +88,14 @@ public class SplayTree implements BST {
                     gg.right = x;
                 x.parent = gg;
             }
-        }
-        else {
+        } else {
             boolean xIsLeftChild = p.left == x;
             boolean pIsLeftChild = gg.left == p;
             Node ggg = gg.parent;
 
             if (this.root != p && xIsLeftChild == pIsLeftChild) {
                 //do a zig-zig
-                Node a,b,c,d;
+                Node a, b, c, d;
                 boolean isRightRotation = p.left == x;
                 if (isRightRotation) {
                     a = x.left;
@@ -131,7 +131,7 @@ public class SplayTree implements BST {
                 if (gg != null) gg.parent = p;
             }
 
-            if (this.root != p && xIsLeftChild != pIsLeftChild){
+            if (this.root != p && xIsLeftChild != pIsLeftChild) {
                 boolean isRightRotation = p.right == x;
                 Node a, b, c, d;
                 if (isRightRotation) {
@@ -176,8 +176,7 @@ public class SplayTree implements BST {
                     ggg.left = x;
                 else
                     ggg.right = x;
-            }
-            else
+            } else
                 this.root = x;
             x.parent = ggg;
         }
@@ -194,15 +193,14 @@ public class SplayTree implements BST {
         bstInsert(n);
         while (n != this.root)
             splay(n);
-
     }
-	
-	/**
-	 * Returns whether the specified key is in the BST.
-	 *
-	 * @param key The key to test.
-	 * @return Whether it's in the BST.
-	 */
+
+    /**
+     * Returns whether the specified key is in the BST.
+     *
+     * @param key The key to test.
+     * @return Whether it's in the BST.
+     */
     public boolean contains(int key) {
         Node root = this.root;
         while (root != null) {
