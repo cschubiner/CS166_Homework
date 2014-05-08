@@ -66,8 +66,8 @@ public class SplayTree implements BST {
             else {
                 x.right = a;
                 x.left = p;
-                p.left = c;
                 p.right = b;
+                p.left = c;
             }
 
             if (b != null) b.parent = p;
@@ -80,6 +80,45 @@ public class SplayTree implements BST {
                 x.parent = gg;
             }
         }
+
+        if (this.root != p && ((p.left == x && gg.left == p ) ||(p.right == x && gg.right == p ))) {
+            //do a zig-zig
+            Node ggg = gg.parent;
+            Node a = x.left;
+            Node b = x.right;
+            boolean isRightRotation = p.left == x;
+            Node c = isRightRotation ? p.right : p.left;
+            Node d = isRightRotation ? gg.right : gg.left;
+            if (isRightRotation) {
+                x.left = a;
+                p.left = b;
+                gg.left = c;
+                x.right = p;
+                p.right = gg;
+            }
+            else {
+                x.right = a;
+                p.right = b;
+                gg.right = c;
+                x.left = p;
+                p.left = gg;
+            }
+
+            b.parent = p;
+            p.parent = x;
+            gg.parent = p;
+            c.parent = gg;
+
+            if (ggg != null) {
+                if (ggg.left == gg)
+                    ggg.left = x;
+                else
+                    ggg.right = x;
+            }
+            x.parent = ggg;
+        }
+
+        
 
         if (gg == null) {
             this.root = x;
