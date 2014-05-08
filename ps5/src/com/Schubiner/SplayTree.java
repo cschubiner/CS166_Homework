@@ -20,6 +20,8 @@ public class SplayTree implements BST {
         }
 	}
 
+    public SplayTree() { }
+
     private void bstInsert(Node n) {
         Node root = this.root;
         if (root == null) {
@@ -53,17 +55,23 @@ public class SplayTree implements BST {
 
         if (this.root == p) {
             //do a zig
-            Node a = x.left;
-            Node b = x.right;
+            Node a, b, c;
             boolean isRightRotation = p.left == x;
-            Node c = isRightRotation ? p.right : p.left;
             if (isRightRotation) {
+                a = x.left;
+                b = x.right;
+                c = p.right;
+
                 x.left = a;
                 x.right = p;
                 p.left = b;
                 p.right = c;
             }
             else {
+                a = x.right;
+                b = x.left;
+                c = p.left;
+
                 x.right = a;
                 x.left = p;
                 p.right = b;
@@ -80,34 +88,88 @@ public class SplayTree implements BST {
                 x.parent = gg;
             }
         }
-
-        if (this.root != p && ((p.left == x && gg.left == p ) ||(p.right == x && gg.right == p ))) {
-            //do a zig-zig
+        else {
+            boolean xIsLeftChild = p.left == x;
+            boolean pIsLeftChild = gg.left == p;
             Node ggg = gg.parent;
-            Node a = x.left;
-            Node b = x.right;
-            boolean isRightRotation = p.left == x;
-            Node c = isRightRotation ? p.right : p.left;
-            Node d = isRightRotation ? gg.right : gg.left;
-            if (isRightRotation) {
-                x.left = a;
-                p.left = b;
-                gg.left = c;
-                x.right = p;
-                p.right = gg;
-            }
-            else {
-                x.right = a;
-                p.right = b;
-                gg.right = c;
-                x.left = p;
-                p.left = gg;
+
+            if (this.root != p && xIsLeftChild == pIsLeftChild) {
+                //do a zig-zig
+                Node a,b,c,d;
+                boolean isRightRotation = p.left == x;
+                if (isRightRotation) {
+                    a = x.left;
+                    b = x.right;
+                    c = p.right;
+                    d = gg.right;
+
+                    x.left = a;
+                    x.right = p;
+                    p.left = b;
+                    p.right = gg;
+                    gg.left = c;
+                    gg.right = d;
+                } else {
+                    a = x.right;
+                    b = x.left;
+                    c = p.left;
+                    d = gg.left;
+
+                    x.right = a;
+                    x.left = p;
+                    p.right = b;
+                    p.left = gg;
+                    gg.right = c;
+                    gg.left = d;
+                }
+
+                if (a != null) a.parent = x;
+                if (b != null) b.parent = p;
+                if (c != null) c.parent = gg;
+                if (d != null) d.parent = gg;
+                if (p != null) p.parent = x;
+                if (gg != null) gg.parent = p;
             }
 
-            b.parent = p;
-            p.parent = x;
-            gg.parent = p;
-            c.parent = gg;
+            if (this.root != p && xIsLeftChild != pIsLeftChild){
+                boolean isRightRotation = p.right == x;
+                Node a, b, c, d;
+                if (isRightRotation) {
+                    a = p.left;
+                    b = x.left;
+                    c = x.right;
+                    d = gg.right;
+
+                    x.right = gg;
+                    gg.right = d;
+                    gg.left = c;
+                    p.left = a;
+                    p.right = b;
+                    x.left = p;
+                    x.right = gg;
+
+                } else {
+                    a = p.right;
+                    b = x.right;
+                    c = x.left;
+                    d = gg.left;
+
+                    x.left = gg;
+                    gg.left = d;
+                    gg.right = c;
+                    p.right = a;
+                    p.left = b;
+                    x.right = p;
+                    x.left = gg;
+                }
+
+                if (a != null) a.parent = p;
+                if (b != null) b.parent = p;
+                if (c != null) c.parent = gg;
+                if (d != null) d.parent = gg;
+                if (p != null) p.parent = x;
+                if (gg != null) gg.parent = x;
+            }
 
             if (ggg != null) {
                 if (ggg.left == gg)
@@ -115,10 +177,10 @@ public class SplayTree implements BST {
                 else
                     ggg.right = x;
             }
+            else
+                this.root = x;
             x.parent = ggg;
         }
-
-        
 
         if (gg == null) {
             this.root = x;
@@ -127,9 +189,12 @@ public class SplayTree implements BST {
     }
 
     public void insert(int key) {
+//        System.out.println(key);
         Node n = new Node(key);
         bstInsert(n);
-        splay(n);
+        while (n != this.root)
+            splay(n);
+
     }
 	
 	/**
