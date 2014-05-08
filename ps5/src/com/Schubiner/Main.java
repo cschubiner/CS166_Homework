@@ -18,6 +18,8 @@ public class Main {
     public void testEasy() {
         double[] arr = {2, 3};
         WeightBalancedTree wbt = new WeightBalancedTree(arr);
-        assertTrue(wbt.contains(3));
+        assertTrue(wbt.contains(0));
+        assertTrue(wbt.contains(1));
+        assertFalse(wbt.contains(2));
     }
 }
